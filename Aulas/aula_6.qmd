@@ -1,0 +1,131 @@
+---
+title: "Aula 06 - Transformações e Regressão Linear"
+format: html
+editor: visual
+---
+
+## O que aprendemos?
+
+### Parte 1: Transformações dos Dados
+
+Aplicamos transformações como Box-Cox, logaritmo e raiz quadrada.
+
+Entendemos quando as transformações são necessárias para atender premissas da ANOVA.
+
+### Parte 2: Regressão Linear
+
+Exploramos modelos de regressão linear simples.
+
+Analisamos o estande de plantas em função da concentração de inóculo.
+
+Ajustamos modelos lineares mistos com o pacote `lme4`.
+
+### Parte 3: Modelos Log-Logísticos
+
+Aplicamos regressão log-logística com os pacotes `drc` e `ec50estimator`.
+
+Estimamos valores de EC50 para diferentes isolados fúngicos.
+
+---
+
+## Box-Cox: transformação de variáveis
+
+```{r}
+library(MASS)
+library(DHARMa)
+library(tidyverse)
+library(agricolae)
+
+insects <- InsectSprays
+
+m1 <- lm(sqrt(count) ~ spray, data = insects)
+plot(m1)
+
+b <- boxcox(lm(count + 0.1 ~ 1, data = insects))
+lambda <- b$x[which.max(b$y)]
+lambda
+
+insects <- insects |>
+  mutate(count2 = (count^lambda - 1) / lambda,
+         count3 = sqrt(count))
+
+hist(insects$count)
+
+m2 <- lm(count2 ~ spray, data = insects)
+plot(m2)
+```
+
+---
+
+## Regressão Linear
+
+```{r}
+library(gsheet)
+library(ggplot2)
+
+estande <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=401662555#gid=401662555")
+
+ggplot(estande, aes(x = trat, y = nplants)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  facet_wrap(~exp) +
+  theme_minimal() +
+  labs(x = "% de inóculo na semente", y = "Número de Plantas")
+```
+
+---
+
+## Modelos Individuais por Experimento
+
+```{r}
+exp1 <- filter(estande, exp == 1)
+m_exp1 <- lm(nplants ~ trat, data = exp1)
+summary(m_exp1)
+
+exp2 <- filter(estande, exp == 2)
+m_exp2 <- lm(nplants ~ trat, data = exp2)
+summary(m_exp2)
+
+exp3 <- filter(estande, exp == 3)
+m_exp3 <- lm(nplants ~ trat, data = exp3)
+summary(m_exp3)
+```
+
+---
+
+## Modelo Linear Misto
+
+```{r}
+library(lme4)
+library(car)
+
+m_misto <- lmer(nplants ~ trat + (1 | exp/bloco), data = estande)
+summary(m_misto)
+confint(m_misto)
+car::Anova(m_misto)
+```
+
+---
+
+## Visualização do Modelo Misto
+
+```{r}
+ggplot(estande, aes(trat, nplants, color = factor(exp))) +
+  geom_point() +
+  geom_abline(intercept = 69.74, slope = -0.568, linewidth = 2) +
+  geom_abline(intercept = 43, slope = -0.73, linetype = "dashed") +
+  geom_abline(intercept = 96, slope = -0.40, linetype = "dashed")
+```
+
+---
+
+## Regressão Log-Logística e Estimativa de EC50
+
+---
+
+## Conclusões
+
+* Transformações corrigem problemas de normalidade e homocedasticidade.
+* Regressão linear e mista ajudam a explicar variações em estande de plantas.
+* Modelos log-logísticos são essenciais para determinar sensibilidade (EC50).
+

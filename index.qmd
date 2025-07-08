@@ -1,0 +1,69 @@
+---
+title: "Caderno de aula FIP 606: Análise e Visualização de Dados"
+format:
+  html:
+    css: styles.css
+---
+
+:::::::: conteudo
+<p class="intro">
+
+Oi, que bom te ver por aqui! Eu sou a Taís, e este é o meu caderno de anotações da disciplina <strong>FIP 606 — Análise e Visualização de Dados em Fitopatologia</strong>.
+
+</p>
+
+<p>Aqui você vai encontrar:</p>
+
+<ul>
+
+<li>Minhas anotações das aulas;</li>
+
+<li>Códigos das atividades práticas (testados e, na maioria das vezes, funcionando 😅);</li>
+
+<li>Exemplos com dados reais;</li>
+
+<li>Dicas e tutoriais que me ajudaram a entender e aplicar os métodos.</li>
+
+</ul>
+
+::: aviso
+💡 <strong>Se algum código não funcionar...</strong> Tente reiniciar o R. Isso resolve 90% dos problemas. Para os outros 10%? Café e paciência! ☕️
+:::
+
+<h3>Sobre a disciplina:</h3>
+
+<p>A disciplina <strong>FIP 606</strong> faz parte do Programa de Pós-Graduação em Fitopatologia da <strong>Universidade Federal de Viçosa (UFV)</strong>.\
+Ministrada pelo <strong>Prof. Emerson Del Ponte</strong> — veja o <a href="https://github.com/emdelponte" target="_blank" style="color: #FFD700;">GitHub do professor</a>.</p>
+
+::::: professor
+:::: {style="text-align: center; max-width: 800px; margin: 0 auto; padding: 20px;"}
+<!-- Foto circular perfeita sem legenda -->
+
+::: {style="margin: 0 auto; width: 180px; height: 180px; border-radius: 50%; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"}
+<img src="Imagens/delponte.jpg" style="width: 100%; height: 100%; object-fit: cover;"/>
+:::
+
+<p>**Prof. Emerson Del Ponte**<br>Ministrante da Disciplina</p>
+::::
+:::::
+
+<h3>Conteúdos abordados:</h3>
+
+<ul>
+
+<li>Metodologia científica para experimentos</li>
+
+<li>Análises de variância, regressão e correlação</li>
+
+<li>Análise multivariada</li>
+
+<li>Visualização com R e ggplot2</li>
+
+<li>Criação de mapas</li>
+
+</ul>
+
+::: rodape
+**Obrigada pela visita!** <br>**Espero que este material seja útil para você, ou pelo menos, que os gráficos fiquem bonitos no final! 🚀**
+:::
+::::::::

@@ -1,0 +1,35 @@
+---
+title: "Sobre mim:"
+format:
+  html:
+    css: styles.css
+---
+
+::::::: {style="text-align: center; max-width: 800px; margin: 0 auto; padding: 20px;"}
+<!-- Foto circular perfeita sem legenda -->
+
+::: {style="margin: 0 auto; width: 180px; height: 180px; border-radius: 50%; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"}
+<img src="Imagens/tais.jpg" style="width: 100%; height: 100%; object-fit: cover;"/>
+:::
+
+<!-- Texto biográfico refinado -->
+
+::: {style="text-align: center; line-height: 1.7; margin-top: 25px; font-size: 1.05rem;"}
+**Olá! Sou Taís Aparecida Machado dos Santos**\
+🎓 Engenheira Agrônoma formada pela Universidade Federal de Viçosa (UFV) – 2024\
+🔬 Mestranda em Fitopatologia pela UFV, sob orientação do Prof. Dr. Rafael Ferreira Alfenas\
+🌿 Integrante do Laboratório de Patologia Florestal (Patomol)
+:::
+
+::: {style="text-align: center; line-height: 1.7; margin: 25px 0; font-size: 1.05rem;"}
+Minha trajetória acadêmica é guiada pela paixão por doenças de plantas, especialmente as que afetam espécies florestais. Desde 2023, atuo em projetos de pesquisa com ênfase em diagnóstico, epidemiologia e manejo de doenças causadas por fungos, com destaque para o gênero *Ceratocystis*.
+
+**Gostou do meu trabalho? Vamos conversar!**
+
+### 📬 Contato
+:::
+
+::: {style="display: flex; justify-content: center; gap: 30px; margin-top: 15px;"}
+<a href="mailto:tais.machado@ufv.br" style="text-decoration: none; color: #0F1C3F; font-weight: 500;"> 📧 tais.machado\@ufv.br </a> <a href="https://www.linkedin.com/in/seu-linkedin" target="_blank" style="text-decoration: none; color: #0F1C3F; font-weight: 500;"> 👔 LinkedIn </a> <a href="https://github.com/tapmachado" target="_blank" style="text-decoration: none; color: #0F1C3F; font-weight: 500;"> 💻 GitHub </a>
+:::
+:::::::

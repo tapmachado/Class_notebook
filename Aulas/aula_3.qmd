@@ -1,0 +1,144 @@
+---
+title: "Aula 03 - Testes Estatísticos: t-Student e ANOVA"
+format: html
+editor: visual
+---
+
+## O que aprendemos?
+
+### 1. Teste t para Amostras Independentes
+
+-   Quando utilizar: comparar médias entre **dois grupos distintos** (ex: tratamento vs. controle)
+-   Verificação de premissas: normalidade (teste de Shapiro-Wilk) e homogeneidade de variâncias (teste F)
+-   Utilização da função `t.test()` com `var.equal = FALSE` para caso variâncias diferentes
+-   Visualização com `ggboxplot()` e adição de valor-p com `stat_pvalue_manual()`
+
+### 2. Teste t para Amostras Dependentes (Pareado)
+
+-   Quando utilizar: comparação **antes e depois** no mesmo indivíduo (ex: `Unaided` vs `Aided1`)
+-   Uso da função `t.test(..., paired = TRUE)`
+-   Exploração de normalidade e variância com `shapiro.test()` e `var.test()`
+-   Alternativas não-paramétricas: `wilcox.test()` (teste de Wilcoxon)
+
+### 3. ANOVA (Análise de Variância)
+
+-   Quando utilizar: comparação entre **três ou mais grupos** (ex: espécies de fungos)
+-   Verificação de premissas: normalidade dos resíduos, homogeneidade das variâncias (`bartlett.test`, `levene_test`)
+-   Comparações múltiplas com `emmeans`, `pairs()` e `cld()`
+-   Visualização de grupos com `ggplot2`
+
+### 4. Testes para Dados Não-Normais ou Variância Desigual
+
+-   Transformações da variável resposta: `log()`, `sqrt()`, `rank()` (com cuidado!)
+-   Alternativa não-paramétrica à ANOVA: **Kruskal-Wallis** com `kruskal.test()`
+-   Comparações múltiplas para Kruskal com pacote `agricolae`
+
+------------------------------------------------------------------------
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggpubr)
+library(rstatix)
+library(gsheet)
+library(report)
+library(emmeans)
+library(multcomp)
+library(agricolae)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+------------------------------------------------------------------------
+
+## Teste t para Amostras Independentes
+
+```{r}
+dat_mg <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=983033137")
+
+ggplot(dat_mg, aes(trat, comp)) +
+  geom_jitter(width = 0.1)
+
+dat_mg2 <- dat_mg |>
+  pivot_wider(names_from = trat, values_from = comp)
+
+t_results <- t.test(dat_mg2$control, dat_mg2$Mg2, var.equal = FALSE)
+report(t_results)
+
+p <- ggboxplot(dat_mg, x = "trat", y = "comp", color = "trat", palette = "jco")
+test_df <- data.frame(group1 = "control", group2 = "Mg2", p.value = t_results$p.value, y.position = 18)
+p + stat_pvalue_manual(test_df, label = "p.value") + ylim(0, 20)
+
+shapiro.test(dat_mg2$Mg2)
+shapiro.test(dat_mg2$control)
+var.test(dat_mg2$Mg2, dat_mg2$control)
+```
+
+------------------------------------------------------------------------
+
+## Teste t para Amostras Dependentes
+
+```{r}
+escala <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=1729131173")
+
+escala_wider <- escala |> pivot_wider(id_cols = rater, names_from = assessment, values_from = acuracia)
+
+t.test(escala_wider$Unaided, escala_wider$Aided1, paired = TRUE)
+
+ggplot(escala, aes(x = assessment, y = acuracia)) +
+  geom_boxplot() +
+  labs(title = "Comparação da Acurácia", x = "Avaliação", y = "Acurácia")
+
+unaided <- escala |> filter(assessment == "Unaided") |> pull(acuracia)
+aided <- escala |> filter(assessment == "Aided1") |> pull(acuracia)
+var.test(unaided, aided)
+shapiro.test(unaided)
+shapiro.test(aided)
+
+wilcox.test(unaided, aided, paired = TRUE)
+```
+
+------------------------------------------------------------------------
+
+## ANOVA - Crescimento Micelial
+
+```{r}
+micelial <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=959387827")
+
+ggplot(micelial, aes(x = especie, y = tcm)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.1)
+
+anova1 <- aov(tcm ~ especie, data = micelial)
+shapiro.test(residuals(anova1))
+bartlett.test(tcm ~ especie, data = micelial)
+levene_test(tcm ~ especie, data = micelial)
+
+m <- emmeans(anova1, ~ especie)
+pairs(m)
+cld(m)
+```
+
+------------------------------------------------------------------------
+
+## Kruskal-Wallis e Alternativas
+
+```{r}
+insetos <- InsectSprays
+
+ggplot(insetos, aes(x = spray, y = count)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.1)
+
+kruskal.test(count ~ spray, data = insetos)
+
+kruskal.out <- with(insetos, kruskal(count, spray, group = TRUE, console = TRUE))
+print(kruskal.out)
+```
+
+------------------------------------------------------------------------
+
+## Dicas Finais
+
+-   Use `paired = TRUE` para medidas repetidas.
+-   Use `var.equal = FALSE` como padrão no `t.test()` se as variâncias forem diferentes.
+-   Testes não-paramétricos (Wilcoxon, Kruskal) são bons aliados quando as premissas não são atendidas.
+-   Visualize sempre os dados antes de aplicar testes!

@@ -1,0 +1,89 @@
+---
+title: "Aula - Ferrugem do Café na Etiópia"
+author: "Taís A. Machado dos Santos"
+date: 2025-06-20
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+    code-fold: true
+    number-sections: true
+    theme: cosmo
+    css: ../styles.css
+editor: visual
+warning: false
+message: false
+---
+
+## Apresentação
+
+O conjunto de dados será da ferrugem do café na Etiópia que está no arquivo de dados na nuvem.
+
+![](images/clipboard-1545881469.jpeg){fig-align="center" width="333"}
+
+## Importar os dados
+
+Usaremos a função gsheet2tbl ( ) do pacote gsheet para carregar os dados no ambiente.
+
+```{r}
+library(gsheet)
+
+cr <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=1871397229#gid=1871397229")
+
+library(DT)
+datatable(cr)
+
+```
+
+## Gráficos
+
+```{r}
+library(rnaturalearth)
+library(rnaturalearthhires)
+library(ggthemes)
+library(tidyverse)
+#install.packages("ggspatial")
+library(ggspatial)
+
+ETH <- ne_states(country = "Ethiopia",
+                 returnclass = "sf")
+
+ggplot(ETH)+
+  geom_sf(fill = "white")
+
+#ou
+
+ETH |> 
+  ggplot()+
+  geom_sf(fill = "white")+
+  geom_point(data = cr, aes(lon, lat, color = inc))+
+  scale_color_viridis_c()+
+  theme_minimal()+
+  theme(legend.position = "bottom")+
+  annotation_scale(location = "tl")+
+  annotation_north_arrow(location = "br", which_north = "true")+
+  labs(title = "Ferrugem do café na Etiópia",
+       x = "Longitude", y = "Latitude",
+       subtitle = "Levantamento em fazendas",
+       caption = " Fonte: Del Ponte et al., 2025",
+       color = "Incidência (%)")
+
+
+
+
+```
+
+## Salvando o mapa:
+
+Para salvar em diferentes formatos basta mudar o final do nome:
+
+Ex: mapa_etiopia.jpg - salvar como imagem.
+
+```{r}
+ggsave ("mapa_etiopia.pdf", bg = "white", width = 10)
+```
+
+## Conclusão
+
+Os dados mostram uma distribuição heterogênea da ferrugem do café na Etiópia, com focos de maior incidência observados em algumas regiões específicas.

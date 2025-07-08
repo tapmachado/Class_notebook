@@ -1,0 +1,45 @@
+---
+title: "Exemplo de Regressão Linear"
+author: "Taís A. Machado dos Santos"
+date: 2025-06-21
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+    code-fold: true
+---
+
+## Introdução
+
+Este é um exemplo de análise de regressão linear, modelando a relação entre a % de inóculo na semente e o número de plantas infectadas.
+
+## Código
+
+```{r}
+library(gsheet)
+library(tidyverse)
+
+url_estande <- "https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=401662555#gid=401662555"
+estande <- gsheet2tbl(url_estande)
+
+# Gráfico de dispersão com regressão
+estande |>
+  ggplot(aes(x = trat, y = nplants)) +
+  geom_point(color = "steelblue", size = 3) +
+  geom_smooth(method = "lm", se = TRUE, color = "black") +
+  facet_wrap(~ exp) +
+  theme_minimal() +
+  labs(
+    x = "% de inóculo na semente",
+    y = "Número de plantas",
+    title = "Regressão linear por experimento"
+  )
+
+# Filtrando o experimento 1
+exp1 <- estande |> filter(exp == 1)
+
+# Ajuste do modelo linear
+m_exp1 <- lm(nplants ~ trat, data = exp1)
+summary(m_exp1)
+```

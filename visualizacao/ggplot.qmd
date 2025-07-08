@@ -1,0 +1,117 @@
+---
+title: "Tipos de Gráficos com ggplot2"
+author: "Taís A. Machado dos Santos"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: true
+    code-tools: true
+---
+
+## Introdução
+
+Aqui estão exemplos práticos de tipos de gráficos mais utilizados durante as aulas, com códigos prontos para uso e personalização.
+
+---
+
+## Boxplot com jitter (Aula 2)
+
+```{r}
+library(ggplot2)
+library(gsheet)
+
+# Exemplo: Efeito do magnésio
+mg <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=983033137#gid=983033137")
+
+ggplot(mg, aes(trat, comp)) +
+  geom_boxplot(fill = "white", outlier.colour = NA) +
+  geom_jitter(width = 0.1) +
+  labs(title = "Boxplot com jitter: Efeito do magnésio", 
+       x = "Tratamento", 
+       y = "Comprimento (mm)") +
+  theme_minimal()
+```
+
+---
+
+## Gráfico de barras com erro padrão (Aula 3)
+
+```{r}
+# Exemplo fictício com barras + erro padrão
+df_bar <- data.frame(
+  Trat = c("A", "B", "C"),
+  Media = c(50, 60, 45),
+  EP = c(5, 4, 6)
+)
+
+ggplot(df_bar, aes(x = Trat, y = Media)) +
+  geom_col(fill = "skyblue") +
+  geom_errorbar(aes(ymin = Media - EP, ymax = Media + EP), width = 0.2) +
+  labs(title = "Gráfico de barras com erro padrão", 
+       x = "Tratamento", 
+       y = "Média ± EP") +
+  theme_classic()
+```
+
+---
+
+## Gráfico de linha com erro padrão (Aula 6)
+
+```{r}
+# Exemplo: Estande de plantas (Aula 6)
+estande <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=401662555#gid=401662555")
+
+ggplot(estande, aes(x = trat, y = nplants, group = exp, color = factor(exp))) +
+  stat_summary(fun = mean, geom = "line") +
+  stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2) +
+  labs(title = "Gráfico de linha com erro padrão", 
+       x = "% de inóculo", 
+       y = "Número de plantas") +
+  theme_minimal()
+```
+
+---
+
+## Gráfico de dispersão com regressão (Aula 5)
+
+```{r}
+# Exemplo: FER x DFC (Aula 5)
+campo <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=866852711#gid=866852711")
+
+ggplot(campo, aes(FER, DFC)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "red") +
+  labs(title = "Correlação: FER vs DFC", 
+       x = "FER", 
+       y = "DFC") +
+  theme_minimal()
+```
+
+---
+
+## Facet Wrap (Comparação entre grupos)
+
+```{r}
+# Exemplo: Taxa de crescimento micelial
+micelial <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=959387827#gid=959387827")
+
+ggplot(micelial, aes(x = reorder(especie, tcm), y = tcm)) +
+  geom_boxplot(fill = "white", outlier.colour = NA) +
+  facet_wrap(~ especie) +
+  coord_flip() +
+  labs(title = "Facet Wrap: Taxa de crescimento micelial", 
+       x = "Espécie", 
+       y = "TCM (mm)") +
+  theme_minimal()
+```
+
+---
+
+## Conclusão
+
+Esses são alguns exemplos práticos para usar no seu caderno de visualização de dados.  
+Você pode copiar e personalizar para cada projeto!
+
+---
+

@@ -1,0 +1,65 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Caderno FIP 606"
+  navbar:
+    background: "#000000"   # NAVBAR PRETA (código HEX)
+    left:
+      - text: "Introdução"
+        href: index.qmd
+      - text: "Aulas"
+        menu:
+          # Títulos ORIGINAIS mantidos:
+          - text: "Aula 1 - Introdução ao R: Ambiente e Manipulação Básica"
+            href: Aulas/aula_1.qmd
+          - text: "Aula 2 - Fluxo de Análise: Importação e Visualização"
+            href: Aulas/aula_2.qmd
+          - text: "Aula 3 - Comparação de Grupos: Testes T em Experimentos"
+            href: Aulas/aula_3.qmd
+          - text: "Aula 4 - Análise de Variância (ANOVA): Delineamentos Básicos"
+            href: Aulas/aula_4.qmd
+          - text: "Aula 5 - Modelos Avançados: GLMs para Dados Fitopatológicos"
+            href: Aulas/aula_5.qmd
+          - text: "Aula 6 - Modelos Preditivos: Regressão Linear"
+            href: Aulas/aula_6.qmd
+      - text: "Visualização de dados"
+        menu:
+          - text: "Gráficos com ggplot2"
+            href: visualizacao/ggplot.qmd
+          - text: "Temas e Customizações"
+            href: visualizacao/temas.qmd
+      - text: "Análise de dados"
+        menu:
+          - text: "Análise de Variância (ANOVA)"
+            href: analise/anova.qmd
+          - text: "Regressão"
+            href: analise/regressao.qmd
+          - text: "Correlação"
+            href: analise/correlacao.qmd
+      - text: "Mapas"
+        menu:
+          - text: "Mapas de Doenças"
+            href: mapas/mapas_doencas.qmd
+    right:
+      - text: "Autor do site"
+        href: sobre.qmd
+      - icon: github
+        href: https://github.com/tapmachado
+      - icon: search
+        href: "#search"
+
+format:
+  html:
+    theme: 
+      light: default
+      dark: darkly
+    css: 
+      - styles.css
+      # CSS adicional para garantir a cor preta:
+      - "https://gist.githubusercontent.com/tapmachado/raw/main/navbar-black.css" 
+    include-after-body:
+      - <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    toc: false
+    page-layout: full

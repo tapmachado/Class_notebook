@@ -1,0 +1,47 @@
+
+---
+title: "Exemplo de Correlação"
+author: "Taís A. Machado dos Santos"
+date: 2025-06-21
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+    code-fold: true
+---
+
+## Introdução
+
+Este é um exemplo de análise de correlação entre severidade de ferrugem (FER) e produtividade (PROD) em ensaio de campo.
+
+## Código
+
+```{r}
+library(gsheet)
+library(tidyverse)
+
+url_campo <- "https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=866852711#gid=866852711"
+campo <- gsheet2tbl(url_campo)
+```
+
+## Correlação
+
+```{r}
+cor(campo$FER, campo$PROD)
+cor.test(campo$FER, campo$PROD)
+```
+
+## Gráfico de dispersão com linha de tendência
+
+```{r}
+ggplot(campo, aes(x = FER, y = PROD)) +
+  geom_point(color = "tomato", size = 3) +
+  geom_smooth(method = "lm", color = "black") +
+  theme_minimal() +
+  labs(
+    x = "Severidade de Ferrugem (%)",
+    y = "Produtividade (kg/ha)",
+    title = "Correlação entre severidade e produtividade"
+  )
+```

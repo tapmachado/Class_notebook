@@ -1,0 +1,104 @@
+---
+title: "Aula 1 - Primeiros Passos no R"
+---
+
+## O que aprendemos?
+
+### 1. Operações Básicas no R
+- Como executar cálculos simples diretamente no console
+- Atribuição de valores a objetos com `<-` e `=`
+
+### 2. Trabalhando com Datasets
+- Carregar datasets internos do R (ex: `Orange`)
+- Visualizar dados com funções básicas
+
+### 3. Transformações Matemáticas
+- Aplicar funções matemáticas (`log`, `exp`) em colunas
+- Criar novas variáveis em um dataframe
+
+### 4. Uso de Pacotes
+- Instalar (`install.packages`) e carregar (`library`) pacotes
+- Introdução aos pacotes `tidyverse` e `agricolae`
+
+---
+
+## Código Pronto para Usar
+
+### Trabalhando com Dados
+```{r}
+# Carregar dataset Orange
+dados <- Orange
+# Visualizar dados
+Orange
+```
+
+### Transformações Matemáticas
+```{r}
+# Criar vetor com valores de circunferência
+circ <- dados$circumference  # Extrai coluna como vetor
+
+# Aplicar exponencial e logaritmo
+circ2 <- exp(circ)           # Exponencial
+circ3 <- log(circ2)          # Log do resultado anterior (volta ao original)
+
+# Adicionar nova coluna ao dataframe
+dados$logcirc <- log(dados$circumference)
+
+# Visualizar dataframe modificado
+head(dados)
+
+```
+
+### Instalação de Pacotes
+```{r}
+# Instalar pacotes (executar apenas uma vez)
+
+# Algo que aprendi e me ajudou muito nas aulas foi instalar os pacotes usando os códigos, 
+# na correria da aula faz toda a diferença!
+
+# install.packages("tidyverse")
+# install.packages("agricolae")
+
+# Carregar pacotes
+library(tidyverse)
+#library(agricolae)
+```
+
+### Exemplo com Gráfico Básico
+```{r}
+# Criar dados de exemplo
+dates <- c(7,14,21,28,35,42)
+severity <- c(0.1,5,10,35,50,60)
+data_curva <- data.frame(dates, severity)
+
+# Gráfico de colunas e linha
+data_curva |>
+  mutate(severity2 = c(1,10,35,58,70,82)) |> 
+  ggplot(aes(dates, severity2)) +
+  geom_col(fill = "black") +
+  geom_line(linewidth = 2, color = "purple") +
+  geom_point(size = 5, color = "black") +
+  labs(
+    title = "Progresso da doença ao longo dos dias",
+    x = "Dias após plantio",
+    y = "Severidade (%)"
+  ) +
+  theme_classic()
+
+```
+
+---
+
+## Dicas Finais:
+
+1. **Atalhos úteis**:
+   - `Ctrl + Enter`: Executa linha selecionada
+   - `Alt + -`: Insere `<-` automaticamente
+
+2. **Boas práticas**:
+   - Use nomes descritivos para objetos (`dados_plantas` em vez de `df1`)
+   - Comente seu código com `#` para explicar etapas importantes
+
+3. **Para saber mais**:
+   - [Documentação do R](https://www.r-project.org/)
+   - [Cheatsheet do tidyverse](https://www.tidyverse.org/learn/)

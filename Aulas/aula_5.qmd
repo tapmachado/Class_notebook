@@ -1,0 +1,134 @@
+---
+title: "Aula 05 - Modelos Estatísticos em Dados de Campo e Ensaio"
+format: html
+editor: visual
+---
+
+#### Parte 1: Experimento de Campo (Fertilizantes)
+
+-   Importar dados do Google Sheets
+-   Converter variáveis para fatores e numéricos corretamente
+-   Ajustar modelo linear (ANOVA)
+-   Diagnóstico de resíduos com `DHARMa`
+-   Estimar e comparar médias com `emmeans`
+-   Correlação entre variáveis (FER, PROD, DFC)
+-   Visualizações com `ggplot2`
+
+```{r}
+library(gsheet)
+library(dplyr)
+library(ggplot2)
+library(DHARMa)
+library(emmeans)
+library(multcomp)
+library(agricolae)
+
+# Importando os dados
+campo <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=866852711#gid=866852711")
+
+# Convertendo variáveis
+campo <- campo |> 
+  mutate(TRAT = factor(TRAT),
+         BLOCO = factor(BLOCO),
+         FER = as.numeric(FER))
+
+# Visualização dos dados
+ggplot(campo, aes(x = TRAT, y = PROD)) + 
+  geom_jitter(width = 0.1) + 
+  stat_summary(fun.data = "mean_cl_boot", colour = "red")
+```
+
+### ANOVA e Médias (Experimento de Campo)
+
+```{r}
+# Modelo linear
+m_campo <- lm(log(FER) ~ BLOCO + TRAT, data = campo)
+
+# ANOVA
+anova(m_campo)
+
+# Diagnóstico de resíduos
+plot(simulateResiduals(m_campo))
+
+# Médias marginais
+means_campo <- emmeans(m_campo, ~ TRAT, type = "response")
+plot(means_campo)
+means_campo
+
+# Comparações adicionais
+cv.model(m_campo)
+cld(means_campo)
+pwpp(means_campo)
+pwpm(means_campo)
+```
+
+###  Correlações
+
+```{r}
+cor(campo$FER, campo$PROD)
+cor.test(campo$FER, campo$DFC)
+
+# Gráfico de dispersão
+campo |> 
+  ggplot(aes(FER, DFC)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+------------------------------------------------------------------------
+
+## Parte 2: Experimento com Milho
+
+###Importação e Visualização
+
+```{r}
+library(lme4)
+library(car)
+library(DHARMa)
+library(multcomp)
+library(emmeans)
+
+milho <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=1345524759#gid=1345524759")
+
+milho |> 
+  ggplot(aes(hybrid, index, color = method)) +
+  geom_jitter(width = 0.1) +
+  coord_flip()
+```
+
+### Modelo Linear Misto
+
+```{r}
+# Criar variável de interação
+milho <- milho |> mutate(hybrid_block = interaction(hybrid, block))
+
+# Modelo com interação híbrido:bloco
+m_milho <- lmer(index ~ hybrid * method + (1 | hybrid_block), data = milho)
+Anova(m_milho)
+plot(simulateResiduals(m_milho))
+```
+
+### Modelo com yield
+
+```{r}
+m_milho2 <- lmer(yield ~ hybrid * method + (1 | block:hybrid_block), data = milho)
+Anova(m_milho2)
+plot(simulateResiduals(m_milho2))
+
+# Médias e comparação
+media_milho2 <- emmeans(m_milho2, ~ method | hybrid)
+cld(media_milho2, Letters = letters)
+```
+
+### Correlação entre índice e produtividade
+
+```{r}
+milho |> 
+  ggplot(aes(index, yield)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+
+cor1 <- cor(milho$index, milho$yield)
+cor1^2 * 100
+cor.test(milho$index, milho$yield)
+```

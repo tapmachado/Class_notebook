@@ -1,0 +1,144 @@
+---
+title: "Aula 04 - Modelos Lineares e Interações"
+format: html
+editor: visual
+---
+
+## O que aprendemos?
+
+### 1. Modelos Lineares com Transformações
+
+-   Uso de `lm()` com transformação (ex: `sqrt(count)`)
+-   Comparações com `emmeans()` e `cld()`
+-   Avaliação de resíduos com `simulateResiduals()` do pacote `DHARMa`
+
+### 2. Modelos Lineares com Família Poisson (GLMs)
+
+-   Ajuste com `family = poisson`
+-   Visualização de resíduos simulados
+-   Médias estimadas com `emmeans(..., type = "response")`
+-   Diagnóstico com `check_model()`
+
+### 3. ANOVA com Dois Fatores e Interação
+
+-   Uso de `lm()` com interação `~ fator1*fator2`
+-   Visualização com `interaction.plot()`
+-   Comparações por nível com `emmeans()` e `cld()`
+-   Cálculo do coeficiente de variação com `cv.model()`
+
+### 4. Cálculo do AUDPC e ANOVA Fatorial
+
+-   Uso da função `AUDPC()` do pacote `epifitter`
+-   Agrupamento com `group_by()` + `summarise()`
+-   Ajuste de modelo com dois fatores: `irrigation_type` e `moisture`
+-   Interações significativas e interpretação
+
+------------------------------------------------------------------------
+
+```{r setup}
+# Pacotes necessários
+library(DHARMa)
+library(emmeans)
+library(multcomp)
+library(car)
+library(performance)
+library(gsheet)
+library(ggplot2)
+library(agricolae)
+library(epifitter)
+library(dplyr)
+```
+
+------------------------------------------------------------------------
+
+## Modelo Linear com Transformação (sqrt)
+
+```{r}
+InsectsDataframe = InsectSprays
+InsectAnovaResult = lm(sqrt(count) ~ spray, data=InsectsDataframe)
+M = emmeans(InsectAnovaResult, ~ spray)
+cld(M)
+plot(simulateResiduals(InsectAnovaResult))
+```
+
+------------------------------------------------------------------------
+
+## GLM com Distribuição Poisson
+
+```{r}
+m4 = glm(count ~ spray, data = InsectsDataframe, family = poisson)
+plot(simulateResiduals(m4))
+mediasM4 = emmeans(m4, ~ spray, type = "response")
+cld(mediasM4)
+check_model(m4)
+```
+
+------------------------------------------------------------------------
+
+## ANOVA Fatorial com Interação (Fungicidas)
+
+```{r}
+FungicideDataframe = gsheet2tbl("https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=2023059672")
+
+# Boxplot por dose e tratamento
+FungicideDataframe |>
+  ggplot(aes(factor(dose), severity*100)) +
+  geom_boxplot(outlier.color = NA) +
+  geom_jitter(width = 0.1) +
+  facet_wrap(~treat)
+```
+
+```{r}
+MFungicide = lm(severity ~ treat * dose, data = FungicideDataframe)
+hist(residuals(MFungicide))
+plot(simulateResiduals(MFungicide))
+interaction.plot(FungicideDataframe$dose, FungicideDataframe$treat, FungicideDataframe$severity)
+anova(MFungicide)
+
+MediasFungicideByDose = emmeans(MFungicide, ~ treat | dose)
+cld(MediasFungicideByDose, Letters = letters)
+
+MediasFungicideByTreat = emmeans(MFungicide, ~ dose | treat)
+cld(MediasFungicideByTreat, Letters = letters)
+
+cv.model(MFungicide)
+```
+
+------------------------------------------------------------------------
+
+## AUDPC e Interação Fatorial (Oídio)
+
+```{r}
+MildewDataframe = PowderyMildew |> 
+  filter(irrigation_type %in% c("MS", "MS above canopy", "Overhead"))
+
+MildewDataframe |>
+  ggplot(aes(time, sev*100)) +
+  geom_jitter(width = 0.1) +
+  facet_grid(moisture ~ irrigation_type)
+```
+
+```{r}
+MildewDataframeAUDPC = MildewDataframe |>
+  group_by(irrigation_type, moisture, block) |>
+  summarise(AUDPC = AUDPC(time, sev), .groups = "drop")
+
+ggplot(MildewDataframeAUDPC, aes(irrigation_type, AUDPC, color = moisture)) +
+  geom_jitter(width = 0.1)
+```
+
+```{r}
+MMildew = lm(AUDPC ~ irrigation_type * moisture, data = MildewDataframeAUDPC)
+hist(residuals(MMildew))
+plot(simulateResiduals(MMildew))
+interaction.plot(MildewDataframeAUDPC$irrigation_type, MildewDataframeAUDPC$moisture, MildewDataframeAUDPC$AUDPC)
+anova(MMildew)
+
+MediasMildewByMoisture = emmeans(MMildew, ~ irrigation_type | moisture)
+cld(MediasMildewByMoisture, Letters = letters)
+
+MediasMildewByIrrigationType = emmeans(MMildew, ~ moisture | irrigation_type)
+cld(MediasMildewByIrrigationType, Letters = letters)
+
+cv.model(MMildew)
+```

@@ -1,0 +1,50 @@
+
+---
+title: "Análise de Variância (ANOVA)"
+author: "Taís A. Machado dos Santos"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: true
+    code-tools: true
+---
+
+## Introdução
+
+Aqui mostramos um exemplo de ANOVA em um ensaio de campo com tratamentos e blocos.
+
+## Exemplo: Ensaio de Campo
+
+```{r}
+library(gsheet)
+library(ggplot2)
+library(dplyr)
+library(DHARMa)
+library(emmeans)
+library(multcomp)
+
+url_campo <- "https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=866852711#gid=866852711"
+campo <- gsheet2tbl(url_campo) |>
+  mutate(TRAT = factor(TRAT),
+         BLOCO = factor(BLOCO),
+         FER = as.numeric(FER))
+
+# Modelo linear
+m_campo <- lm(log(FER) ~ BLOCO + TRAT, data = campo)
+
+# ANOVA
+anova(m_campo)
+
+# Diagnóstico de resíduos
+plot(simulateResiduals(m_campo))
+
+# Médias e comparações
+means_campo <- emmeans(m_campo, ~ TRAT, type = "response")
+cld(means_campo)
+```
+    
+## Conclusão
+
+ANOVA permite comparar tratamentos levando em conta o fator de bloco.  
+É essencial verificar resíduos antes de interpretar os resultados.

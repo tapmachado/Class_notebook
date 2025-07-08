@@ -1,0 +1,15 @@
+---
+title: "Ferrugem do Café na Etiópia"
+author: "Taís A. Machado dos Santos"
+date: 2025-05-21
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+    code-fold: true
+warning: false
+message: false
+editor: visual
+---
+
