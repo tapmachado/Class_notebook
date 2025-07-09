@@ -151,14 +151,14 @@
     "href": "Aulas/aula_2.html",
     "title": "<i class='bi bi-graph-up'></i> FIP 606",
     "section": "",
-    "text": "Importar dados diretamente do Google Sheets com gsheet\n\nConverter variáveis para os tipos corretos: fatores e numéricos\n\n\n\n\n\nAjustar modelos lineares generalizados (GLMs) para dados experimentais\n\nRealizar análise de variância (ANOVA) em modelos GLMs\n\nAvaliar diagnóstico de resíduos com o pacote DHARMa\n\n\n\n\n\nEstimar e comparar médias marginais com emmeans\n\nRealizar comparações múltiplas e visualização de médias\n\n\n\n\n\nAvaliar correlações entre variáveis com testes e gráficos\n\nVisualizar dados e resultados com ggplot2\n\n\n\n\n\nConstruir e interpretar modelos lineares mistos generalizados para dados com estrutura hierárquica\n\nAvaliar e interpretar resultados para experimentos com blocos e interações\n\n\n\n\n\nCriar gráficos de dispersão, boxplots e combinar múltiplos gráficos para análise comparativa"
+    "text": "Uso do read_excel() do pacote readxl\nLeitura de planilhas específicas\nFunções de visualização como head(), str(), glimpse()\n\n\n\n\n\nImportar dados diretamente da nuvem com gsheet\n\n\n\n\n\nfilter(), select(), group_by() e count()\nCombinar dados com rbind()\n\n\n\n\n\nGráficos de colunas (geom_col)\nBoxplots (geom_boxplot)\nCombinação de gráficos com patchwork"
   },
   {
     "objectID": "Aulas/aula_2.html#o-que-aprendemos",
     "href": "Aulas/aula_2.html#o-que-aprendemos",
     "title": "<i class='bi bi-graph-up'></i> FIP 606",
     "section": "",
-    "text": "Importar dados diretamente do Google Sheets com gsheet\n\nConverter variáveis para os tipos corretos: fatores e numéricos\n\n\n\n\n\nAjustar modelos lineares generalizados (GLMs) para dados experimentais\n\nRealizar análise de variância (ANOVA) em modelos GLMs\n\nAvaliar diagnóstico de resíduos com o pacote DHARMa\n\n\n\n\n\nEstimar e comparar médias marginais com emmeans\n\nRealizar comparações múltiplas e visualização de médias\n\n\n\n\n\nAvaliar correlações entre variáveis com testes e gráficos\n\nVisualizar dados e resultados com ggplot2\n\n\n\n\n\nConstruir e interpretar modelos lineares mistos generalizados para dados com estrutura hierárquica\n\nAvaliar e interpretar resultados para experimentos com blocos e interações\n\n\n\n\n\nCriar gráficos de dispersão, boxplots e combinar múltiplos gráficos para análise comparativa"
+    "text": "Uso do read_excel() do pacote readxl\nLeitura de planilhas específicas\nFunções de visualização como head(), str(), glimpse()\n\n\n\n\n\nImportar dados diretamente da nuvem com gsheet\n\n\n\n\n\nfilter(), select(), group_by() e count()\nCombinar dados com rbind()\n\n\n\n\n\nGráficos de colunas (geom_col)\nBoxplots (geom_boxplot)\nCombinação de gráficos com patchwork"
   },
   {
     "objectID": "Aulas/aula_2.html#leitura-do-arquivo-excel",

@@ -414,52 +414,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="o-que-aprendemos" class="level2">
 <h2 class="anchored" data-anchor-id="o-que-aprendemos">O que aprendemos?</h2>
-<section id="importação-e-preparação-de-dados" class="level4">
-<h4 class="anchored" data-anchor-id="importação-e-preparação-de-dados">1. Importação e Preparação de Dados</h4>
+<section id="leitura-de-arquivos-excel" class="level4">
+<h4 class="anchored" data-anchor-id="leitura-de-arquivos-excel">1. Leitura de Arquivos Excel</h4>
 <ul>
-<li>Importar dados diretamente do Google Sheets com <code>gsheet</code><br>
-</li>
-<li>Converter variáveis para os tipos corretos: fatores e numéricos</li>
+<li>Uso do <code>read_excel()</code> do pacote <code>readxl</code></li>
+<li>Leitura de planilhas específicas</li>
+<li>Funções de visualização como <code>head()</code>, <code>str()</code>, <code>glimpse()</code></li>
 </ul>
 </section>
-<section id="ajuste-de-modelos-lineares-e-generalizados" class="level4">
-<h4 class="anchored" data-anchor-id="ajuste-de-modelos-lineares-e-generalizados">2. Ajuste de Modelos Lineares e Generalizados</h4>
+<section id="importação-com-google-sheets" class="level4">
+<h4 class="anchored" data-anchor-id="importação-com-google-sheets">2. Importação com Google Sheets</h4>
 <ul>
-<li>Ajustar modelos lineares generalizados (GLMs) para dados experimentais<br>
-</li>
-<li>Realizar análise de variância (ANOVA) em modelos GLMs<br>
-</li>
-<li>Avaliar diagnóstico de resíduos com o pacote <code>DHARMa</code></li>
+<li>Importar dados diretamente da nuvem com <code>gsheet</code></li>
 </ul>
 </section>
-<section id="comparação-de-médias-e-estimativas" class="level4">
-<h4 class="anchored" data-anchor-id="comparação-de-médias-e-estimativas">3. Comparação de Médias e Estimativas</h4>
+<section id="manipulação-de-dados" class="level4">
+<h4 class="anchored" data-anchor-id="manipulação-de-dados">3. Manipulação de Dados</h4>
 <ul>
-<li>Estimar e comparar médias marginais com <code>emmeans</code><br>
-</li>
-<li>Realizar comparações múltiplas e visualização de médias</li>
+<li><code>filter()</code>, <code>select()</code>, <code>group_by()</code> e <code>count()</code></li>
+<li>Combinar dados com <code>rbind()</code></li>
 </ul>
 </section>
-<section id="análise-de-correlação-e-visualização" class="level4">
-<h4 class="anchored" data-anchor-id="análise-de-correlação-e-visualização">4. Análise de Correlação e Visualização</h4>
+<section id="visualização-com-ggplot2" class="level4">
+<h4 class="anchored" data-anchor-id="visualização-com-ggplot2">4. Visualização com <code>ggplot2</code></h4>
 <ul>
-<li>Avaliar correlações entre variáveis com testes e gráficos<br>
-</li>
-<li>Visualizar dados e resultados com <code>ggplot2</code></li>
-</ul>
-</section>
-<section id="modelos-lineares-mistos" class="level4">
-<h4 class="anchored" data-anchor-id="modelos-lineares-mistos">5. Modelos Lineares Mistos</h4>
-<ul>
-<li>Construir e interpretar modelos lineares mistos generalizados para dados com estrutura hierárquica<br>
-</li>
-<li>Avaliar e interpretar resultados para experimentos com blocos e interações</li>
-</ul>
-</section>
-<section id="visualização-avançada" class="level4">
-<h4 class="anchored" data-anchor-id="visualização-avançada">6. Visualização Avançada</h4>
-<ul>
-<li>Criar gráficos de dispersão, boxplots e combinar múltiplos gráficos para análise comparativa</li>
+<li>Gráficos de colunas (<code>geom_col</code>)</li>
+<li>Boxplots (<code>geom_boxplot</code>)</li>
+<li>Combinação de gráficos com <code>patchwork</code></li>
 </ul>
 <hr>
 </section>
@@ -576,8 +557,8 @@ Anexando pacote: 'dplyr'</code></pre>
 <p>Essas operações ajudam a limpar, organizar e entender melhor os dados antes de aplicar modelos ou criar visualizações. Uma análise bem feita começa com dados bem preparados e o dplyr facilita esse processo.</p>
 <hr>
 </section>
-<section id="visualização-com-ggplot2" class="level2">
-<h2 class="anchored" data-anchor-id="visualização-com-ggplot2">4. Visualização com ggplot2</h2>
+<section id="visualização-com-ggplot2-1" class="level2">
+<h2 class="anchored" data-anchor-id="visualização-com-ggplot2-1">4. Visualização com ggplot2</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
