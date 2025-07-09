@@ -7,7 +7,11 @@ format:
 
 :::: {style="text-align: center; max-width: 750px; margin: 0 auto;"}
 ::: {style="text-align: center; max-width: 750px; margin: 0 auto;"}
-</h3>**Caderno de aula FIP 606: Análise e Visualização de Dados**</h3>
+</h3>
+
+**Caderno de aula FIP 606: Análise e Visualização de Dados**
+
+</h3>
 :::
 ::::
 
@@ -72,6 +76,4 @@ Ministrada pelo <strong>Prof. Emerson Del Ponte</strong> — veja o <a href="htt
 ::: rodape
 <strong>Obrigada pela visita!</strong> <br> <strong>Espero que este material seja útil para você, ou pelo menos, que os gráficos fiquem bonitos no final! 🚀</strong>
 :::
-
-::::::::
 ::::::::
