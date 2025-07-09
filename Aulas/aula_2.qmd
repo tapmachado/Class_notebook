@@ -32,7 +32,18 @@ editor: visual
 ## 1. Leitura do Arquivo Excel
 
 ```{r}
+# Instalar e carregar o pacote readxl (se necessário)
+# install.packages("readxl")
+library(readxl)
 
+# Importar arquivo Excel (salve o arquivo na mesma pasta do projeto)
+dados <- read_excel("dados_exemplo.xlsx")
+
+# Visualizar os dados
+head(dados)
+```
+
+```{}
 ```
 
 ------------------------------------------------------------------------

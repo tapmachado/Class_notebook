@@ -392,11 +392,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </i> 
 <span class="menu-text"></span></a>
   </li>  
-  <li class="nav-item compact">
-    <a class="nav-link" href="../#search"> <i class="bi bi-search" role="img">
-</i> 
-<span class="menu-text"></span></a>
-  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -417,17 +412,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="parte-1-experimento-de-campo-fertilizantes" class="level4">
-<h4 class="anchored" data-anchor-id="parte-1-experimento-de-campo-fertilizantes">Parte 1: Experimento de Campo (Fertilizantes)</h4>
+<section id="o-que-aprendemos" class="level2">
+<h2 class="anchored" data-anchor-id="o-que-aprendemos">O que aprendemos?</h2>
+<section id="importação-e-preparação-de-dados" class="level4">
+<h4 class="anchored" data-anchor-id="importação-e-preparação-de-dados">1. Importação e Preparação de Dados</h4>
 <ul>
-<li>Importar dados do Google Sheets</li>
-<li>Converter variáveis para fatores e numéricos corretamente</li>
-<li>Ajustar modelo linear (ANOVA)</li>
-<li>Diagnóstico de resíduos com <code>DHARMa</code></li>
-<li>Estimar e comparar médias com <code>emmeans</code></li>
-<li>Correlação entre variáveis (FER, PROD, DFC)</li>
-<li>Visualizações com <code>ggplot2</code></li>
+<li>Importar dados diretamente do Google Sheets com <code>gsheet</code><br>
+</li>
+<li>Converter variáveis para os tipos corretos: fatores e numéricos</li>
 </ul>
+</section>
+<section id="ajuste-de-modelos-lineares-e-generalizados" class="level4">
+<h4 class="anchored" data-anchor-id="ajuste-de-modelos-lineares-e-generalizados">2. Ajuste de Modelos Lineares e Generalizados</h4>
+<ul>
+<li>Ajustar modelos lineares generalizados (GLMs) para dados experimentais<br>
+</li>
+<li>Realizar análise de variância (ANOVA) em modelos GLMs<br>
+</li>
+<li>Avaliar diagnóstico de resíduos com o pacote <code>DHARMa</code></li>
+</ul>
+</section>
+<section id="comparação-de-médias-e-estimativas" class="level4">
+<h4 class="anchored" data-anchor-id="comparação-de-médias-e-estimativas">3. Comparação de Médias e Estimativas</h4>
+<ul>
+<li>Estimar e comparar médias marginais com <code>emmeans</code><br>
+</li>
+<li>Realizar comparações múltiplas e visualização de médias</li>
+</ul>
+</section>
+<section id="análise-de-correlação-e-visualização" class="level4">
+<h4 class="anchored" data-anchor-id="análise-de-correlação-e-visualização">4. Análise de Correlação e Visualização</h4>
+<ul>
+<li>Avaliar correlações entre variáveis com testes e gráficos<br>
+</li>
+<li>Visualizar dados e resultados com <code>ggplot2</code></li>
+</ul>
+</section>
+<section id="modelos-lineares-mistos" class="level4">
+<h4 class="anchored" data-anchor-id="modelos-lineares-mistos">5. Modelos Lineares Mistos</h4>
+<ul>
+<li>Construir e interpretar modelos lineares mistos generalizados para dados com estrutura hierárquica<br>
+</li>
+<li>Avaliar e interpretar resultados para experimentos com blocos e interações</li>
+</ul>
+</section>
+<section id="visualização-avançada" class="level4">
+<h4 class="anchored" data-anchor-id="visualização-avançada">6. Visualização Avançada</h4>
+<ul>
+<li>Criar gráficos de dispersão, boxplots e combinar múltiplos gráficos para análise comparativa</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="parte-1-experimento-de-campo-fertilizantes" class="level2">
+<h2 class="anchored" data-anchor-id="parte-1-experimento-de-campo-fertilizantes">Parte 1: Experimento de Campo (Fertilizantes)</h2>
+<section id="importação-e-preparação-dos-dados" class="level3">
+<h3 class="anchored" data-anchor-id="importação-e-preparação-dos-dados">Importação e preparação dos dados</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsheet)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -489,19 +529,18 @@ Anexando pacote: 'TH.data'</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(agricolae)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando os dados</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>campo <span class="ot">&lt;-</span> <span class="fu">gsheet2tbl</span>(<span class="st">"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=866852711#gid=866852711"</span>)</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertendo variáveis</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>campo <span class="ot">&lt;-</span> campo <span class="sc">|&gt;</span> </span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">TRAT =</span> <span class="fu">factor</span>(TRAT),</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">BLOCO =</span> <span class="fu">factor</span>(BLOCO),</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">FER =</span> <span class="fu">as.numeric</span>(FER))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>campo <span class="ot">&lt;-</span> <span class="fu">gsheet2tbl</span>(<span class="st">"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=866852711#gid=866852711"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>campo <span class="ot">&lt;-</span> campo <span class="sc">|&gt;</span> </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">TRAT =</span> <span class="fu">factor</span>(TRAT),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">BLOCO =</span> <span class="fu">factor</span>(BLOCO),</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">FER =</span> <span class="fu">as.numeric</span>(FER)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualização dos dados</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(campo, <span class="fu">aes</span>(<span class="at">x =</span> TRAT, <span class="at">y =</span> PROD)) <span class="sc">+</span> </span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span> </span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> <span class="st">"mean_cl_boot"</span>, <span class="at">colour =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(campo, <span class="fu">aes</span>(<span class="at">x =</span> TRAT, <span class="at">y =</span> PROD)) <span class="sc">+</span> </span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span> </span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> <span class="st">"mean_cl_boot"</span>, <span class="at">colour =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -510,15 +549,13 @@ Anexando pacote: 'TH.data'</code></pre>
 </div>
 </div>
 </div>
+<hr>
 </section>
-<section id="anova-e-médias-experimento-de-campo" class="level3">
-<h3 class="anchored" data-anchor-id="anova-e-médias-experimento-de-campo">ANOVA e Médias (Experimento de Campo)</h3>
+<section id="ajuste-do-modelo-linear-e-anova" class="level3">
+<h3 class="anchored" data-anchor-id="ajuste-do-modelo-linear-e-anova">Ajuste do modelo linear e ANOVA</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo linear</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>m_campo <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(FER) <span class="sc">~</span> BLOCO <span class="sc">+</span> TRAT, <span class="at">data =</span> campo)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ANOVA</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m_campo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>m_campo <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(FER) <span class="sc">~</span> BLOCO <span class="sc">+</span> TRAT, <span class="at">data =</span> campo)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m_campo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -530,8 +567,7 @@ Residuals 21  0.8044 0.03831
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnóstico de resíduos</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">simulateResiduals</span>(m_campo))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">simulateResiduals</span>(m_campo))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -539,13 +575,18 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Médias marginais</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>means_campo <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(m_campo, <span class="sc">~</span> TRAT, <span class="at">type =</span> <span class="st">"response"</span>)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(means_campo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+<section id="estimativa-e-comparação-de-médias" class="level3">
+<h3 class="anchored" data-anchor-id="estimativa-e-comparação-de-médias">Estimativa e comparação de médias</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>means_campo <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(m_campo, <span class="sc">~</span> TRAT, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(means_campo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="aula_5_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="aula_5_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -565,8 +606,7 @@ Results are averaged over the levels of: BLOCO
 Confidence level used: 0.95 
 Intervals are back-transformed from the log scale </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparações adicionais</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cv.model</span>(m_campo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cv.model</span>(m_campo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 13.13068</code></pre>
 </div>
@@ -596,7 +636,7 @@ NOTE: If two or more means share the same grouping symbol,
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="aula_5_files/figure-html/unnamed-chunk-2-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="aula_5_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -618,9 +658,10 @@ Diagonal: [Estimates] (response)   type = "response"
 Lower triangle: Comparisons (ratio)   earlier vs. later</code></pre>
 </div>
 </div>
+<hr>
 </section>
-<section id="correlações" class="level3">
-<h3 class="anchored" data-anchor-id="correlações">Correlações</h3>
+<section id="correlações-e-visualização" class="level3">
+<h3 class="anchored" data-anchor-id="correlações-e-visualização">Correlações e visualização</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(campo<span class="sc">$</span>FER, campo<span class="sc">$</span>PROD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -640,27 +681,28 @@ sample estimates:
       cor 
 0.9316978 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de dispersão</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>campo <span class="sc">|&gt;</span> </span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(FER, DFC)) <span class="sc">+</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>campo <span class="sc">|&gt;</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(FER, DFC)) <span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="aula_5_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="aula_5_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <hr>
 </section>
+</section>
 <section id="parte-2-experimento-com-milho" class="level2">
 <h2 class="anchored" data-anchor-id="parte-2-experimento-com-milho">Parte 2: Experimento com Milho</h2>
-<p>###Importação e Visualização</p>
+<section id="importação-e-visualização" class="level3">
+<h3 class="anchored" data-anchor-id="importação-e-visualização">Importação e visualização</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -692,20 +734,20 @@ Anexando pacote: 'car'</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="aula_5_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="aula_5_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<section id="modelo-linear-misto" class="level3">
-<h3 class="anchored" data-anchor-id="modelo-linear-misto">Modelo Linear Misto</h3>
+<hr>
+</section>
+<section id="modelo-linear-misto-com-interação" class="level3">
+<h3 class="anchored" data-anchor-id="modelo-linear-misto-com-interação">Modelo linear misto com interação</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Criar variável de interação</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>milho <span class="ot">&lt;-</span> milho <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">hybrid_block =</span> <span class="fu">interaction</span>(hybrid, block))</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo com interação híbrido:bloco</span></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>m_milho <span class="ot">&lt;-</span> <span class="fu">lmer</span>(index <span class="sc">~</span> hybrid <span class="sc">*</span> method <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> hybrid_block), <span class="at">data =</span> milho)</span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(m_milho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>milho <span class="ot">&lt;-</span> milho <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">hybrid_block =</span> <span class="fu">interaction</span>(hybrid, block))</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>m_milho <span class="ot">&lt;-</span> <span class="fu">lmer</span>(index <span class="sc">~</span> hybrid <span class="sc">*</span> method <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> hybrid_block), <span class="at">data =</span> milho)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(m_milho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table (Type II Wald chisquare tests)
 
@@ -721,14 +763,15 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="aula_5_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="aula_5_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<hr>
 </section>
-<section id="modelo-com-yield" class="level3">
-<h3 class="anchored" data-anchor-id="modelo-com-yield">Modelo com yield</h3>
+<section id="modelo-misto-para-yield" class="level3">
+<h3 class="anchored" data-anchor-id="modelo-misto-para-yield">Modelo misto para yield</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>m_milho2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(yield <span class="sc">~</span> hybrid <span class="sc">*</span> method <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> block<span class="sc">:</span>hybrid_block), <span class="at">data =</span> milho)</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(m_milho2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -747,13 +790,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="aula_5_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="aula_5_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Médias e comparação</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>media_milho2 <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(m_milho2, <span class="sc">~</span> method <span class="sc">|</span> hybrid)</span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cld</span>(media_milho2, <span class="at">Letters =</span> letters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>media_milho2 <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(m_milho2, <span class="sc">~</span> method <span class="sc">|</span> hybrid)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cld</span>(media_milho2, <span class="at">Letters =</span> letters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>hybrid = 30F53 HX:
  method emmean  SE   df lower.CL upper.CL .group
@@ -793,6 +835,7 @@ NOTE: If two or more means share the same grouping symbol,
       But we also did not show them to be the same. </code></pre>
 </div>
 </div>
+<hr>
 </section>
 <section id="correlação-entre-índice-e-produtividade" class="level3">
 <h3 class="anchored" data-anchor-id="correlação-entre-índice-e-produtividade">Correlação entre índice e produtividade</h3>
@@ -807,7 +850,7 @@ NOTE: If two or more means share the same grouping symbol,
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="aula_5_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="aula_5_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
