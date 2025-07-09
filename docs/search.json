@@ -44,63 +44,63 @@
   {
     "objectID": "Aulas/aula_6.html",
     "href": "Aulas/aula_6.html",
-    "title": "Aula 06 - Transformações e Regressão Linear",
+    "title": "<i class='bi bi-graph-up'></i> FIP 606",
     "section": "",
     "text": "Aplicamos transformações como Box-Cox, logaritmo e raiz quadrada.\nEntendemos quando as transformações são necessárias para atender premissas da ANOVA.\n\n\n\nExploramos modelos de regressão linear simples.\nAnalisamos o estande de plantas em função da concentração de inóculo.\nAjustamos modelos lineares mistos com o pacote lme4.\n\n\n\nAplicamos regressão log-logística com os pacotes drc e ec50estimator.\nEstimamos valores de EC50 para diferentes isolados fúngicos."
   },
   {
     "objectID": "Aulas/aula_6.html#o-que-aprendemos",
     "href": "Aulas/aula_6.html#o-que-aprendemos",
-    "title": "Aula 06 - Transformações e Regressão Linear",
+    "title": "<i class='bi bi-graph-up'></i> FIP 606",
     "section": "",
     "text": "Aplicamos transformações como Box-Cox, logaritmo e raiz quadrada.\nEntendemos quando as transformações são necessárias para atender premissas da ANOVA.\n\n\n\nExploramos modelos de regressão linear simples.\nAnalisamos o estande de plantas em função da concentração de inóculo.\nAjustamos modelos lineares mistos com o pacote lme4.\n\n\n\nAplicamos regressão log-logística com os pacotes drc e ec50estimator.\nEstimamos valores de EC50 para diferentes isolados fúngicos."
   },
   {
     "objectID": "Aulas/aula_6.html#box-cox-transformação-de-variáveis",
     "href": "Aulas/aula_6.html#box-cox-transformação-de-variáveis",
-    "title": "Aula 06 - Transformações e Regressão Linear",
+    "title": "<i class='bi bi-graph-up'></i> FIP 606",
     "section": "Box-Cox: transformação de variáveis",
     "text": "Box-Cox: transformação de variáveis\n\nlibrary(MASS)\nlibrary(DHARMa)\n\nThis is DHARMa 0.4.7. For overview type '?DHARMa'. For recent changes, type news(package = 'DHARMa')\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.4     \n\n\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\n✖ dplyr::select() masks MASS::select()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(agricolae)\n\ninsects &lt;- InsectSprays\n\nm1 &lt;- lm(sqrt(count) ~ spray, data = insects)\nplot(m1)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nb &lt;- boxcox(lm(count + 0.1 ~ 1, data = insects))\n\n\n\n\n\n\n\nlambda &lt;- b$x[which.max(b$y)]\nlambda\n\n[1] 0.4242424\n\ninsects &lt;- insects |&gt;\n  mutate(count2 = (count^lambda - 1) / lambda,\n         count3 = sqrt(count))\n\nhist(insects$count)\n\n\n\n\n\n\n\nm2 &lt;- lm(count2 ~ spray, data = insects)\nplot(m2)"
   },
   {
     "objectID": "Aulas/aula_6.html#regressão-linear",
     "href": "Aulas/aula_6.html#regressão-linear",
-    "title": "Aula 06 - Transformações e Regressão Linear",
+    "title": "<i class='bi bi-graph-up'></i> FIP 606",
     "section": "Regressão Linear",
     "text": "Regressão Linear\n\nlibrary(gsheet)\nlibrary(ggplot2)\n\nestande &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=401662555#gid=401662555\")\n\nggplot(estande, aes(x = trat, y = nplants)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", se = FALSE, color = \"black\") +\n  facet_wrap(~exp) +\n  theme_minimal() +\n  labs(x = \"% de inóculo na semente\", y = \"Número de Plantas\")\n\n`geom_smooth()` using formula = 'y ~ x'"
   },
   {
     "objectID": "Aulas/aula_6.html#modelos-individuais-por-experimento",
     "href": "Aulas/aula_6.html#modelos-individuais-por-experimento",
-    "title": "Aula 06 - Transformações e Regressão Linear",
+    "title": "<i class='bi bi-graph-up'></i> FIP 606",
     "section": "Modelos Individuais por Experimento",
     "text": "Modelos Individuais por Experimento\n\nexp1 &lt;- filter(estande, exp == 1)\nm_exp1 &lt;- lm(nplants ~ trat, data = exp1)\nsummary(m_exp1)\n\n\nCall:\nlm(formula = nplants ~ trat, data = exp1)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-25.500  -6.532   1.758   8.573  27.226 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  52.5000     4.2044  12.487 1.84e-11 ***\ntrat         -0.2419     0.1859  -1.301    0.207    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 15 on 22 degrees of freedom\nMultiple R-squared:  0.07148,   Adjusted R-squared:  0.02928 \nF-statistic: 1.694 on 1 and 22 DF,  p-value: 0.2066\n\nexp2 &lt;- filter(estande, exp == 2)\nm_exp2 &lt;- lm(nplants ~ trat, data = exp2)\nsummary(m_exp2)\n\n\nCall:\nlm(formula = nplants ~ trat, data = exp2)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-25.7816  -7.7150   0.5653   8.1929  19.2184 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  60.9857     3.6304  16.798 4.93e-14 ***\ntrat         -0.7007     0.1605  -4.365 0.000247 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 12.95 on 22 degrees of freedom\nMultiple R-squared:  0.4641,    Adjusted R-squared:  0.4398 \nF-statistic: 19.05 on 1 and 22 DF,  p-value: 0.0002473\n\nexp3 &lt;- filter(estande, exp == 3)\nm_exp3 &lt;- lm(nplants ~ trat, data = exp3)\nsummary(m_exp3)\n\n\nCall:\nlm(formula = nplants ~ trat, data = exp3)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-26.5887  -3.9597   0.7177   5.5806  19.8952 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  95.7500     2.9529  32.425  &lt; 2e-16 ***\ntrat         -0.7634     0.1306  -5.847 6.97e-06 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 10.53 on 22 degrees of freedom\nMultiple R-squared:  0.6085,    Adjusted R-squared:  0.5907 \nF-statistic: 34.19 on 1 and 22 DF,  p-value: 6.968e-06"
   },
   {
     "objectID": "Aulas/aula_6.html#modelo-linear-misto",
     "href": "Aulas/aula_6.html#modelo-linear-misto",
-    "title": "Aula 06 - Transformações e Regressão Linear",
+    "title": "<i class='bi bi-graph-up'></i> FIP 606",
     "section": "Modelo Linear Misto",
     "text": "Modelo Linear Misto\n\nlibrary(lme4)\n\nCarregando pacotes exigidos: Matrix\n\n\n\nAnexando pacote: 'Matrix'\n\n\nOs seguintes objetos são mascarados por 'package:tidyr':\n\n    expand, pack, unpack\n\nlibrary(car)\n\nCarregando pacotes exigidos: carData\n\n\n\nAnexando pacote: 'car'\n\n\nO seguinte objeto é mascarado por 'package:dplyr':\n\n    recode\n\n\nO seguinte objeto é mascarado por 'package:purrr':\n\n    some\n\nm_misto &lt;- lmer(nplants ~ trat + (1 | exp/bloco), data = estande)\nsummary(m_misto)\n\nLinear mixed model fit by REML ['lmerMod']\nFormula: nplants ~ trat + (1 | exp/bloco)\n   Data: estande\n\nREML criterion at convergence: 575.8\n\nScaled residuals: \n     Min       1Q   Median       3Q      Max \n-2.21697 -0.63351  0.04292  0.67094  1.92907 \n\nRandom effects:\n Groups    Name        Variance Std.Dev.\n bloco:exp (Intercept)  54.76    7.40   \n exp       (Intercept) 377.43   19.43   \n Residual              134.99   11.62   \nNumber of obs: 72, groups:  bloco:exp, 12; exp, 3\n\nFixed effects:\n            Estimate Std. Error t value\n(Intercept) 69.74524   11.57191   6.027\ntrat        -0.56869    0.08314  -6.840\n\nCorrelation of Fixed Effects:\n     (Intr)\ntrat -0.111\n\nconfint(m_misto)\n\nComputing profile confidence intervals ...\n\n\n                 2.5 %     97.5 %\n.sig01       3.3332097 14.4218422\n.sig02       7.2377419 47.8269818\n.sigma       9.7314178 13.9359486\n(Intercept) 43.4631239 96.0274587\ntrat        -0.7328972 -0.4044812\n\ncar::Anova(m_misto)\n\nAnalysis of Deviance Table (Type II Wald chisquare tests)\n\nResponse: nplants\n      Chisq Df Pr(&gt;Chisq)    \ntrat 46.788  1  7.909e-12 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
   },
   {
     "objectID": "Aulas/aula_6.html#visualização-do-modelo-misto",
     "href": "Aulas/aula_6.html#visualização-do-modelo-misto",
-    "title": "Aula 06 - Transformações e Regressão Linear",
+    "title": "<i class='bi bi-graph-up'></i> FIP 606",
     "section": "Visualização do Modelo Misto",
     "text": "Visualização do Modelo Misto\n\nggplot(estande, aes(trat, nplants, color = factor(exp))) +\n  geom_point() +\n  geom_abline(intercept = 69.74, slope = -0.568, linewidth = 2) +\n  geom_abline(intercept = 43, slope = -0.73, linetype = \"dashed\") +\n  geom_abline(intercept = 96, slope = -0.40, linetype = \"dashed\")"
   },
   {
     "objectID": "Aulas/aula_6.html#regressão-log-logística-e-estimativa-de-ec50",
     "href": "Aulas/aula_6.html#regressão-log-logística-e-estimativa-de-ec50",
-    "title": "Aula 06 - Transformações e Regressão Linear",
+    "title": "<i class='bi bi-graph-up'></i> FIP 606",
     "section": "Regressão Log-Logística e Estimativa de EC50",
     "text": "Regressão Log-Logística e Estimativa de EC50"
   },
   {
     "objectID": "Aulas/aula_6.html#conclusões",
     "href": "Aulas/aula_6.html#conclusões",
-    "title": "Aula 06 - Transformações e Regressão Linear",
+    "title": "<i class='bi bi-graph-up'></i> FIP 606",
     "section": "Conclusões",
     "text": "Conclusões\n\nTransformações corrigem problemas de normalidade e homocedasticidade.\nRegressão linear e mista ajudam a explicar variações em estande de plantas.\nModelos log-logísticos são essenciais para determinar sensibilidade (EC50)."
   },
@@ -310,23 +310,23 @@
   {
     "objectID": "Aulas/aula_1.html",
     "href": "Aulas/aula_1.html",
-    "title": "Aula 1 - Primeiros Passos no R",
+    "title": "<i class='bi bi-graph-up'></i> FIP 606",
     "section": "",
     "text": "Como executar cálculos simples diretamente no console\nAtribuição de valores a objetos com &lt;- e =\n\n\n\n\n\nCarregar datasets internos do R (ex: Orange)\nVisualizar dados com funções básicas\n\n\n\n\n\nAplicar funções matemáticas (log, exp) em colunas\nCriar novas variáveis em um dataframe\n\n\n\n\n\nInstalar (install.packages) e carregar (library) pacotes\nIntrodução aos pacotes tidyverse e agricolae"
   },
   {
     "objectID": "Aulas/aula_1.html#o-que-aprendemos",
     "href": "Aulas/aula_1.html#o-que-aprendemos",
-    "title": "Aula 1 - Primeiros Passos no R",
+    "title": "<i class='bi bi-graph-up'></i> FIP 606",
     "section": "",
     "text": "Como executar cálculos simples diretamente no console\nAtribuição de valores a objetos com &lt;- e =\n\n\n\n\n\nCarregar datasets internos do R (ex: Orange)\nVisualizar dados com funções básicas\n\n\n\n\n\nAplicar funções matemáticas (log, exp) em colunas\nCriar novas variáveis em um dataframe\n\n\n\n\n\nInstalar (install.packages) e carregar (library) pacotes\nIntrodução aos pacotes tidyverse e agricolae"
   },
   {
     "objectID": "Aulas/aula_1.html#código-pronto-para-usar",
     "href": "Aulas/aula_1.html#código-pronto-para-usar",
-    "title": "Aula 1 - Primeiros Passos no R",
+    "title": "<i class='bi bi-graph-up'></i> FIP 606",
     "section": "Código Pronto para Usar",
-    "text": "Código Pronto para Usar\n\nTrabalhando com Dados\n\n# Carregar dataset Orange\ndados &lt;- Orange\n# Visualizar dados\nOrange\n\n   Tree  age circumference\n1     1  118            30\n2     1  484            58\n3     1  664            87\n4     1 1004           115\n5     1 1231           120\n6     1 1372           142\n7     1 1582           145\n8     2  118            33\n9     2  484            69\n10    2  664           111\n11    2 1004           156\n12    2 1231           172\n13    2 1372           203\n14    2 1582           203\n15    3  118            30\n16    3  484            51\n17    3  664            75\n18    3 1004           108\n19    3 1231           115\n20    3 1372           139\n21    3 1582           140\n22    4  118            32\n23    4  484            62\n24    4  664           112\n25    4 1004           167\n26    4 1231           179\n27    4 1372           209\n28    4 1582           214\n29    5  118            30\n30    5  484            49\n31    5  664            81\n32    5 1004           125\n33    5 1231           142\n34    5 1372           174\n35    5 1582           177\n\n\n\n\nTransformações Matemáticas\n\n# Criar vetor com valores de circunferência\ncirc &lt;- dados$circumference  # Extrai coluna como vetor\n\n# Aplicar exponencial e logaritmo\ncirc2 &lt;- exp(circ)           # Exponencial\ncirc3 &lt;- log(circ2)          # Log do resultado anterior (volta ao original)\n\n# Adicionar nova coluna ao dataframe\ndados$logcirc &lt;- log(dados$circumference)\n\n# Visualizar dataframe modificado\nhead(dados)\n\n  Tree  age circumference  logcirc\n1    1  118            30 3.401197\n2    1  484            58 4.060443\n3    1  664            87 4.465908\n4    1 1004           115 4.744932\n5    1 1231           120 4.787492\n6    1 1372           142 4.955827\n\n\n\n\nInstalação de Pacotes\n\n# Instalar pacotes (executar apenas uma vez)\n\n# Algo que aprendi e me ajudou muito nas aulas foi instalar os pacotes usando os códigos, \n# na correria da aula faz toda a diferença!\n\n# install.packages(\"tidyverse\")\n# install.packages(\"agricolae\")\n\n# Carregar pacotes\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.4     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n#library(agricolae)\n\n\n\nExemplo com Gráfico Básico\n\n# Criar dados de exemplo\ndates &lt;- c(7,14,21,28,35,42)\nseverity &lt;- c(0.1,5,10,35,50,60)\ndata_curva &lt;- data.frame(dates, severity)\n\n# Gráfico de colunas e linha\ndata_curva |&gt;\n  mutate(severity2 = c(1,10,35,58,70,82)) |&gt; \n  ggplot(aes(dates, severity2)) +\n  geom_col(fill = \"black\") +\n  geom_line(linewidth = 2, color = \"purple\") +\n  geom_point(size = 5, color = \"black\") +\n  labs(\n    title = \"Progresso da doença ao longo dos dias\",\n    x = \"Dias após plantio\",\n    y = \"Severidade (%)\"\n  ) +\n  theme_classic()"
+    "text": "Código Pronto para Usar\n\nTrabalhando com Dados\n\n# Carregar dataset Orange\ndados &lt;- Orange\n# Visualizar dados\nOrange\n\n   Tree  age circumference\n1     1  118            30\n2     1  484            58\n3     1  664            87\n4     1 1004           115\n5     1 1231           120\n6     1 1372           142\n7     1 1582           145\n8     2  118            33\n9     2  484            69\n10    2  664           111\n11    2 1004           156\n12    2 1231           172\n13    2 1372           203\n14    2 1582           203\n15    3  118            30\n16    3  484            51\n17    3  664            75\n18    3 1004           108\n19    3 1231           115\n20    3 1372           139\n21    3 1582           140\n22    4  118            32\n23    4  484            62\n24    4  664           112\n25    4 1004           167\n26    4 1231           179\n27    4 1372           209\n28    4 1582           214\n29    5  118            30\n30    5  484            49\n31    5  664            81\n32    5 1004           125\n33    5 1231           142\n34    5 1372           174\n35    5 1582           177\n\n\n\n\nTransformações Matemáticas\n\n# Criar vetor com valores de circunferência\ncirc &lt;- dados$circumference  # Extrai coluna como vetor\n\n# Aplicar exponencial e logaritmo\ncirc2 &lt;- exp(circ)           # Exponencial\ncirc3 &lt;- log(circ2)          # Log do resultado anterior (volta ao original)\n\n# Adicionar nova coluna ao dataframe\ndados$logcirc &lt;- log(dados$circumference)\n\n# Visualizar dataframe modificado\nhead(dados)\n\n  Tree  age circumference  logcirc\n1    1  118            30 3.401197\n2    1  484            58 4.060443\n3    1  664            87 4.465908\n4    1 1004           115 4.744932\n5    1 1231           120 4.787492\n6    1 1372           142 4.955827\n\n\n\n\nInstalação de Pacotes\n\n# Instalar pacotes (executar apenas uma vez)\n\n# Algo que aprendi e me ajudou muito nas aulas foi instalar os pacotes usando os códigos, \n# na correria da aula faz toda a diferença!\n\n# install.packages(\"tidyverse\")\n# install.packages(\"agricolae\")\n\n# Carregar pacotes\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.4     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n#library(agricolae)\n\n\n\nExemplo com Gráfico Básico\n\n# Criar dados de exemplo\ndates &lt;- c(7,14,21,28,35,42)\nseverity &lt;- c(0.1,5,10,35,50,60)\ndata_curva &lt;- data.frame(dates, severity)\n\n# Gráfico de colunas e linha\nlibrary(ggplot2)\nlibrary(dplyr)\n\ndata_curva |&gt;\n  mutate(severity2 = c(1, 10, 35, 58, 70, 82)) |&gt; \n  ggplot(aes(dates, severity2)) +\n  geom_col(fill = \"#F4A582\") +          # barras salmão claro\n  geom_line(linewidth = 2, color = \"#92C5DE\") +  # linha verde-azulada\n  geom_point(size = 4, color = \"#7570B3\") +      # pontos roxo escuro\n  labs(\n    title = \"Progresso da doença ao longo dos dias\",\n    x = \"Dias após plantio\",\n    y = \"Severidade (%)\"\n  ) +\n  theme_minimal() +\n  theme(\n    plot.title = element_text(face = \"bold\", size = 14, hjust = 0.5),\n    axis.title = element_text(size = 12),\n    axis.text = element_text(size = 11)\n  )"
   },
   {
     "objectID": "Aulas/aula_1.html#dicas-rápidas",
@@ -537,5 +537,12 @@
     "title": "Caderno FIP 606 — Análise e Visualização de Dados",
     "section": "",
     "text": "Oi, que bom te ver por aqui! Eu sou a Taís, e este é o meu caderno de anotações da disciplina FIP 606 — Análise e Visualização de Dados em Fitopatologia.\n\n\nAqui você vai encontrar:\n\n\n\nMinhas anotações das aulas;\n\n\nCódigos das atividades práticas (testados e, na maioria das vezes, funcionando 😅);\n\n\nExemplos com dados reais;\n\n\nDicas e tutoriais que me ajudaram a entender e aplicar os métodos.\n\n\n\n💡 Se algum código não funcionar… Tente reiniciar o R. Isso resolve 90% dos problemas. Para os outros 10%? Café e paciência! ☕️\n\n\nSobre a disciplina:\n\n\nA disciplina FIP 606 faz parte do Programa de Pós-Graduação em Fitopatologia da Universidade Federal de Viçosa (UFV).\nMinistrada pelo Prof. Emerson Del Ponte — veja o GitHub do professor.\n\n\n\n\n\n\n\n\nProf. Emerson Del PonteMinistrante da Disciplina\n\n\n\n\nConteúdos abordados:\n\n\n\nMetodologia científica para experimentos\n\n\nAnálises de variância, regressão e correlação\n\n\nAnálise multivariada\n\n\nVisualização com R e ggplot2\n\n\nCriação de mapas\n\n\n\nObrigada pela visita! Espero que este material seja útil para você, ou pelo menos, que os gráficos fiquem bonitos no final! 🚀"
+  },
+  {
+    "objectID": "Aulas/aula_1.html#dicas-finais",
+    "href": "Aulas/aula_1.html#dicas-finais",
+    "title": "<i class='bi bi-graph-up'></i> FIP 606",
+    "section": "Dicas Finais:",
+    "text": "Dicas Finais:\n\nAtalhos úteis:\n\nCtrl + Enter: Executa linha selecionada\nAlt + -: Insere &lt;- automaticamente\n\nBoas práticas:\n\nUse nomes descritivos para objetos (dados_plantas em vez de df1)\nComente seu código com # para explicar etapas importantes\n\nPara saber mais:\n\nDocumentação do R\nCheatsheet do tidyverse"
   }
 ]

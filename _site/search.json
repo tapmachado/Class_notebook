@@ -1,0 +1,555 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Seu Título Aqui",
+    "section": "",
+    "text": "Caderno de aula FIP 606: Análise e Visualização de Dados\nOi, que bom te ver por aqui! Eu sou a Taís, e este é o meu caderno de anotações da disciplina FIP 606 — Análise e Visualização de Dados em Fitopatologia.\n\n\nAqui você vai encontrar:\n\n\n\nMinhas anotações das aulas;\n\n\nCódigos das atividades práticas (testados e, na maioria das vezes, funcionando 😅);\n\n\nExemplos com dados reais;\n\n\nDicas e tutoriais que me ajudaram a entender e aplicar os métodos.\n\n\n\n💡 Se algum código não funcionar… Tente reiniciar o R. Isso resolve 90% dos problemas.\nPara os outros 10%? Café e paciência! ☕️\n\n\nSobre a disciplina:\n\n\nA disciplina FIP 606 faz parte do Programa de Pós-Graduação em Fitopatologia da Universidade Federal de Viçosa (UFV).\nMinistrada pelo Prof. Emerson Del Ponte — veja o GitHub do professor.\n\n\n\n\n\n\n\nProf. Emerson Del PonteMinistrante da Disciplina\n\n\n\n\nConteúdos abordados:\n\n\n\nMetodologia científica para experimentos\n\n\nAnálises de variância, regressão e correlação\n\n\nAnálise multivariada\n\n\nVisualização com R e ggplot2\n\n\nCriação de mapas\n\n\n\nObrigada pela visita!  Espero que este material seja útil para você, ou pelo menos, que os gráficos fiquem bonitos no final! 🚀"
+  },
+  {
+    "objectID": "visualizacao/temas.html",
+    "href": "visualizacao/temas.html",
+    "title": "Temas e Customizações no ggplot2",
+    "section": "",
+    "text": "Durante as aulas, vimos que é possível personalizar muito a aparência dos gráficos feitos com ggplot2, usando:\n✅ Temas prontos\n✅ Paletas de cores (manuais ou automáticas)\n✅ Estilo dos textos e rótulos\n✅ Elementos gráficos (legenda, eixos, linhas)"
+  },
+  {
+    "objectID": "visualizacao/temas.html#introdução",
+    "href": "visualizacao/temas.html#introdução",
+    "title": "Temas e Customizações no ggplot2",
+    "section": "",
+    "text": "Durante as aulas, vimos que é possível personalizar muito a aparência dos gráficos feitos com ggplot2, usando:\n✅ Temas prontos\n✅ Paletas de cores (manuais ou automáticas)\n✅ Estilo dos textos e rótulos\n✅ Elementos gráficos (legenda, eixos, linhas)"
+  },
+  {
+    "objectID": "visualizacao/temas.html#exemplo-com-cores-pastéis-gráfico-da-aula-6",
+    "href": "visualizacao/temas.html#exemplo-com-cores-pastéis-gráfico-da-aula-6",
+    "title": "Temas e Customizações no ggplot2",
+    "section": "Exemplo com cores pastéis (gráfico da Aula 6)",
+    "text": "Exemplo com cores pastéis (gráfico da Aula 6)\n\n\nCode\nlibrary(ggplot2)\nlibrary(gsheet)\n\n# Dados: Estande de plantas\nestande &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=401662555#gid=401662555\")\n\n# Definindo paleta pastel\ncores_pastel &lt;- c(\"#FBB4AE\", \"#B3CDE3\", \"#CCEBC5\")\n\n# Gráfico com tema e paleta\nggplot(estande, aes(x = trat, y = nplants, group = exp, color = factor(exp))) +\n  stat_summary(fun = mean, geom = \"line\", linewidth = 1.5) +\n  stat_summary(fun.data = mean_cl_boot, geom = \"errorbar\", width = 0.2) +\n  scale_color_manual(values = cores_pastel) +\n  labs(title = \"Efeito do Inóculo no Estande de Plantas\",\n       subtitle = \"Com cores pastéis e tema minimalista\",\n       x = \"% de Inóculo na semente\",\n       y = \"Número de Plantas\",\n       color = \"Experimento\") +\n  theme_minimal() +\n  theme(\n    plot.title = element_text(face = \"bold\", size = 16),\n    plot.subtitle = element_text(size = 12, color = \"gray40\"),\n    axis.text = element_text(size = 11),\n    legend.position = \"bottom\"\n  )"
+  },
+  {
+    "objectID": "visualizacao/temas.html#outras-opções-de-temas-e-paletas",
+    "href": "visualizacao/temas.html#outras-opções-de-temas-e-paletas",
+    "title": "Temas e Customizações no ggplot2",
+    "section": "Outras opções de temas e paletas",
+    "text": "Outras opções de temas e paletas\n\nUsando tema clássico + paleta pastel\n\n\nCode\nggplot(estande, aes(x = trat, y = nplants, group = exp, color = factor(exp))) +\n  stat_summary(fun = mean, geom = \"line\", linewidth = 1.5) +\n  stat_summary(fun.data = mean_cl_boot, geom = \"errorbar\", width = 0.2) +\n  scale_color_manual(values = cores_pastel) +\n  labs(title = \"Tema clássico + cores pastéis\",\n       x = \"% de Inóculo\",\n       y = \"Número de Plantas\") +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\n\nUsando RColorBrewer (paleta pastel1)\n\n\nCode\nlibrary(RColorBrewer)\n\nggplot(estande, aes(x = trat, y = nplants, group = exp, color = factor(exp))) +\n  stat_summary(fun = mean, geom = \"line\", linewidth = 1.5) +\n  stat_summary(fun.data = mean_cl_boot, geom = \"errorbar\", width = 0.2) +\n  scale_color_brewer(palette = \"Pastel1\") +\n  labs(title = \"Paleta RColorBrewer - Pastel1\",\n       x = \"% de Inóculo\",\n       y = \"Número de Plantas\") +\n  theme_light()"
+  },
+  {
+    "objectID": "visualizacao/temas.html#conclusão",
+    "href": "visualizacao/temas.html#conclusão",
+    "title": "Temas e Customizações no ggplot2",
+    "section": "Conclusão",
+    "text": "Conclusão\nCom pequenos ajustes no tema e nas paletas de cores, podemos tornar os gráficos mais suaves e elegantes para apresentações, artigos e relatórios.\nEu preferencialmente gosto muito dos tons pasteis, que tal?!"
+  },
+  {
+    "objectID": "sobre.html",
+    "href": "sobre.html",
+    "title": "Sobre mim:",
+    "section": "",
+    "text": "Olá! Sou Taís Aparecida Machado dos Santos\n🎓 Engenheira Agrônoma formada pela Universidade Federal de Viçosa (UFV) – 2024\n🔬 Mestranda em Fitopatologia pela UFV, sob orientação do Prof. Dr. Rafael Ferreira Alfenas\n🌿 Integrante do Laboratório de Patologia Florestal (Patomol)\n\n\nMinha trajetória acadêmica é guiada pela paixão por doenças de plantas, especialmente as que afetam espécies florestais. Desde 2023, atuo em projetos de pesquisa com ênfase em diagnóstico, epidemiologia e manejo de doenças causadas por fungos, com destaque para o gênero Ceratocystis.\nGostou do meu trabalho? Vamos conversar!\n\n📬 Contato\n\n\n\n 📧 tais.machado@ufv.br   👔 LinkedIn   💻 GitHub"
+  },
+  {
+    "objectID": "mapas/mapas_doencas.html",
+    "href": "mapas/mapas_doencas.html",
+    "title": "Aula - Ferrugem do Café na Etiópia",
+    "section": "",
+    "text": "O conjunto de dados será da ferrugem do café na Etiópia que está no arquivo de dados na nuvem."
+  },
+  {
+    "objectID": "mapas/mapas_doencas.html#apresentação",
+    "href": "mapas/mapas_doencas.html#apresentação",
+    "title": "Aula - Ferrugem do Café na Etiópia",
+    "section": "",
+    "text": "O conjunto de dados será da ferrugem do café na Etiópia que está no arquivo de dados na nuvem."
+  },
+  {
+    "objectID": "mapas/mapas_doencas.html#importar-os-dados",
+    "href": "mapas/mapas_doencas.html#importar-os-dados",
+    "title": "Aula - Ferrugem do Café na Etiópia",
+    "section": "2 Importar os dados",
+    "text": "2 Importar os dados\nUsaremos a função gsheet2tbl ( ) do pacote gsheet para carregar os dados no ambiente.\n\n\nCode\nlibrary(gsheet)\n\ncr &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=1871397229#gid=1871397229\")\n\nlibrary(DT)\ndatatable(cr)"
+  },
+  {
+    "objectID": "mapas/mapas_doencas.html#gráficos",
+    "href": "mapas/mapas_doencas.html#gráficos",
+    "title": "Aula - Ferrugem do Café na Etiópia",
+    "section": "3 Gráficos",
+    "text": "3 Gráficos\n\n\nCode\nlibrary(rnaturalearth)\nlibrary(rnaturalearthhires)\nlibrary(ggthemes)\nlibrary(tidyverse)\n#install.packages(\"ggspatial\")\nlibrary(ggspatial)\n\nETH &lt;- ne_states(country = \"Ethiopia\",\n                 returnclass = \"sf\")\n\nggplot(ETH)+\n  geom_sf(fill = \"white\")\n\n\n\n\n\n\n\n\n\nCode\n#ou\n\nETH |&gt; \n  ggplot()+\n  geom_sf(fill = \"white\")+\n  geom_point(data = cr, aes(lon, lat, color = inc))+\n  scale_color_viridis_c()+\n  theme_minimal()+\n  theme(legend.position = \"bottom\")+\n  annotation_scale(location = \"tl\")+\n  annotation_north_arrow(location = \"br\", which_north = \"true\")+\n  labs(title = \"Ferrugem do café na Etiópia\",\n       x = \"Longitude\", y = \"Latitude\",\n       subtitle = \"Levantamento em fazendas\",\n       caption = \" Fonte: Del Ponte et al., 2025\",\n       color = \"Incidência (%)\")"
+  },
+  {
+    "objectID": "mapas/mapas_doencas.html#salvando-o-mapa",
+    "href": "mapas/mapas_doencas.html#salvando-o-mapa",
+    "title": "Aula - Ferrugem do Café na Etiópia",
+    "section": "4 Salvando o mapa:",
+    "text": "4 Salvando o mapa:\nPara salvar em diferentes formatos basta mudar o final do nome:\nEx: mapa_etiopia.jpg - salvar como imagem.\n\n\nCode\nggsave (\"mapa_etiopia.pdf\", bg = \"white\", width = 10)"
+  },
+  {
+    "objectID": "mapas/mapas_doencas.html#conclusão",
+    "href": "mapas/mapas_doencas.html#conclusão",
+    "title": "Aula - Ferrugem do Café na Etiópia",
+    "section": "5 Conclusão",
+    "text": "5 Conclusão\nOs dados mostram uma distribuição heterogênea da ferrugem do café na Etiópia, com focos de maior incidência observados em algumas regiões específicas."
+  },
+  {
+    "objectID": "Fip606_Aulas/index.html",
+    "href": "Fip606_Aulas/index.html",
+    "title": "Caderno FIP 606 — Análise e Visualização de Dados",
+    "section": "",
+    "text": "Oi, que bom te ver por aqui! Eu sou a Taís, e este é o meu caderno de anotações da disciplina FIP 606 — Análise e Visualização de Dados em Fitopatologia.\n\n\nAqui você vai encontrar:\n\n\n\nMinhas anotações das aulas;\n\n\nCódigos das atividades práticas (testados e, na maioria das vezes, funcionando 😅);\n\n\nExemplos com dados reais;\n\n\nDicas e tutoriais que me ajudaram a entender e aplicar os métodos.\n\n\n\n💡 Se algum código não funcionar… Tente reiniciar o R. Isso resolve 90% dos problemas. Para os outros 10%? Café e paciência! ☕️\n\n\nSobre a disciplina:\n\n\nA disciplina FIP 606 faz parte do Programa de Pós-Graduação em Fitopatologia da Universidade Federal de Viçosa (UFV).\nMinistrada pelo Prof. Emerson Del Ponte — veja o GitHub do professor.\n\n\n\n\n\n\n\n\nProf. Emerson Del PonteMinistrante da Disciplina\n\n\n\n\nConteúdos abordados:\n\n\n\nMetodologia científica para experimentos\n\n\nAnálises de variância, regressão e correlação\n\n\nAnálise multivariada\n\n\nVisualização com R e ggplot2\n\n\nCriação de mapas\n\n\n\nObrigada pela visita! Espero que este material seja útil para você, ou pelo menos, que os gráficos fiquem bonitos no final! 🚀"
+  },
+  {
+    "objectID": "Fip606_Aulas/about.html",
+    "href": "Fip606_Aulas/about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "Aulas/aula_6.html",
+    "href": "Aulas/aula_6.html",
+    "title": "Seu Título Aqui",
+    "section": "",
+    "text": "Aplicamos transformações como Box-Cox, logaritmo e raiz quadrada.\nEntendemos quando as transformações são necessárias para atender premissas da ANOVA.\n\n\n\nExploramos modelos de regressão linear simples.\nAnalisamos o estande de plantas em função da concentração de inóculo.\nAjustamos modelos lineares mistos com o pacote lme4.\n\n\n\nAplicamos regressão log-logística com os pacotes drc e ec50estimator.\nEstimamos valores de EC50 para diferentes isolados fúngicos."
+  },
+  {
+    "objectID": "Aulas/aula_6.html#o-que-aprendemos",
+    "href": "Aulas/aula_6.html#o-que-aprendemos",
+    "title": "Seu Título Aqui",
+    "section": "",
+    "text": "Aplicamos transformações como Box-Cox, logaritmo e raiz quadrada.\nEntendemos quando as transformações são necessárias para atender premissas da ANOVA.\n\n\n\nExploramos modelos de regressão linear simples.\nAnalisamos o estande de plantas em função da concentração de inóculo.\nAjustamos modelos lineares mistos com o pacote lme4.\n\n\n\nAplicamos regressão log-logística com os pacotes drc e ec50estimator.\nEstimamos valores de EC50 para diferentes isolados fúngicos."
+  },
+  {
+    "objectID": "Aulas/aula_6.html#box-cox-transformação-de-variáveis",
+    "href": "Aulas/aula_6.html#box-cox-transformação-de-variáveis",
+    "title": "Seu Título Aqui",
+    "section": "Box-Cox: transformação de variáveis",
+    "text": "Box-Cox: transformação de variáveis\n\nlibrary(MASS)\nlibrary(DHARMa)\n\nThis is DHARMa 0.4.7. For overview type '?DHARMa'. For recent changes, type news(package = 'DHARMa')\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.4     \n\n\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\n✖ dplyr::select() masks MASS::select()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(agricolae)\n\ninsects &lt;- InsectSprays\n\nm1 &lt;- lm(sqrt(count) ~ spray, data = insects)\nplot(m1)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nb &lt;- boxcox(lm(count + 0.1 ~ 1, data = insects))\n\n\n\n\n\n\n\nlambda &lt;- b$x[which.max(b$y)]\nlambda\n\n[1] 0.4242424\n\ninsects &lt;- insects |&gt;\n  mutate(count2 = (count^lambda - 1) / lambda,\n         count3 = sqrt(count))\n\nhist(insects$count)\n\n\n\n\n\n\n\nm2 &lt;- lm(count2 ~ spray, data = insects)\nplot(m2)"
+  },
+  {
+    "objectID": "Aulas/aula_6.html#regressão-linear",
+    "href": "Aulas/aula_6.html#regressão-linear",
+    "title": "Seu Título Aqui",
+    "section": "Regressão Linear",
+    "text": "Regressão Linear\n\nlibrary(gsheet)\nlibrary(ggplot2)\n\nestande &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=401662555#gid=401662555\")\n\nggplot(estande, aes(x = trat, y = nplants)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", se = FALSE, color = \"black\") +\n  facet_wrap(~exp) +\n  theme_minimal() +\n  labs(x = \"% de inóculo na semente\", y = \"Número de Plantas\")\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "Aulas/aula_6.html#modelos-individuais-por-experimento",
+    "href": "Aulas/aula_6.html#modelos-individuais-por-experimento",
+    "title": "Seu Título Aqui",
+    "section": "Modelos Individuais por Experimento",
+    "text": "Modelos Individuais por Experimento\n\nexp1 &lt;- filter(estande, exp == 1)\nm_exp1 &lt;- lm(nplants ~ trat, data = exp1)\nsummary(m_exp1)\n\n\nCall:\nlm(formula = nplants ~ trat, data = exp1)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-25.500  -6.532   1.758   8.573  27.226 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  52.5000     4.2044  12.487 1.84e-11 ***\ntrat         -0.2419     0.1859  -1.301    0.207    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 15 on 22 degrees of freedom\nMultiple R-squared:  0.07148,   Adjusted R-squared:  0.02928 \nF-statistic: 1.694 on 1 and 22 DF,  p-value: 0.2066\n\nexp2 &lt;- filter(estande, exp == 2)\nm_exp2 &lt;- lm(nplants ~ trat, data = exp2)\nsummary(m_exp2)\n\n\nCall:\nlm(formula = nplants ~ trat, data = exp2)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-25.7816  -7.7150   0.5653   8.1929  19.2184 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  60.9857     3.6304  16.798 4.93e-14 ***\ntrat         -0.7007     0.1605  -4.365 0.000247 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 12.95 on 22 degrees of freedom\nMultiple R-squared:  0.4641,    Adjusted R-squared:  0.4398 \nF-statistic: 19.05 on 1 and 22 DF,  p-value: 0.0002473\n\nexp3 &lt;- filter(estande, exp == 3)\nm_exp3 &lt;- lm(nplants ~ trat, data = exp3)\nsummary(m_exp3)\n\n\nCall:\nlm(formula = nplants ~ trat, data = exp3)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-26.5887  -3.9597   0.7177   5.5806  19.8952 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  95.7500     2.9529  32.425  &lt; 2e-16 ***\ntrat         -0.7634     0.1306  -5.847 6.97e-06 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 10.53 on 22 degrees of freedom\nMultiple R-squared:  0.6085,    Adjusted R-squared:  0.5907 \nF-statistic: 34.19 on 1 and 22 DF,  p-value: 6.968e-06"
+  },
+  {
+    "objectID": "Aulas/aula_6.html#modelo-linear-misto",
+    "href": "Aulas/aula_6.html#modelo-linear-misto",
+    "title": "Seu Título Aqui",
+    "section": "Modelo Linear Misto",
+    "text": "Modelo Linear Misto\n\nlibrary(lme4)\n\nCarregando pacotes exigidos: Matrix\n\n\n\nAnexando pacote: 'Matrix'\n\n\nOs seguintes objetos são mascarados por 'package:tidyr':\n\n    expand, pack, unpack\n\nlibrary(car)\n\nCarregando pacotes exigidos: carData\n\n\n\nAnexando pacote: 'car'\n\n\nO seguinte objeto é mascarado por 'package:dplyr':\n\n    recode\n\n\nO seguinte objeto é mascarado por 'package:purrr':\n\n    some\n\nm_misto &lt;- lmer(nplants ~ trat + (1 | exp/bloco), data = estande)\nsummary(m_misto)\n\nLinear mixed model fit by REML ['lmerMod']\nFormula: nplants ~ trat + (1 | exp/bloco)\n   Data: estande\n\nREML criterion at convergence: 575.8\n\nScaled residuals: \n     Min       1Q   Median       3Q      Max \n-2.21697 -0.63351  0.04292  0.67094  1.92907 \n\nRandom effects:\n Groups    Name        Variance Std.Dev.\n bloco:exp (Intercept)  54.76    7.40   \n exp       (Intercept) 377.43   19.43   \n Residual              134.99   11.62   \nNumber of obs: 72, groups:  bloco:exp, 12; exp, 3\n\nFixed effects:\n            Estimate Std. Error t value\n(Intercept) 69.74524   11.57191   6.027\ntrat        -0.56869    0.08314  -6.840\n\nCorrelation of Fixed Effects:\n     (Intr)\ntrat -0.111\n\nconfint(m_misto)\n\nComputing profile confidence intervals ...\n\n\n                 2.5 %     97.5 %\n.sig01       3.3332097 14.4218422\n.sig02       7.2377419 47.8269818\n.sigma       9.7314178 13.9359486\n(Intercept) 43.4631239 96.0274587\ntrat        -0.7328972 -0.4044812\n\ncar::Anova(m_misto)\n\nAnalysis of Deviance Table (Type II Wald chisquare tests)\n\nResponse: nplants\n      Chisq Df Pr(&gt;Chisq)    \ntrat 46.788  1  7.909e-12 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "Aulas/aula_6.html#visualização-do-modelo-misto",
+    "href": "Aulas/aula_6.html#visualização-do-modelo-misto",
+    "title": "Seu Título Aqui",
+    "section": "Visualização do Modelo Misto",
+    "text": "Visualização do Modelo Misto\n\nggplot(estande, aes(trat, nplants, color = factor(exp))) +\n  geom_point() +\n  geom_abline(intercept = 69.74, slope = -0.568, linewidth = 2) +\n  geom_abline(intercept = 43, slope = -0.73, linetype = \"dashed\") +\n  geom_abline(intercept = 96, slope = -0.40, linetype = \"dashed\")"
+  },
+  {
+    "objectID": "Aulas/aula_6.html#regressão-log-logística-e-estimativa-de-ec50",
+    "href": "Aulas/aula_6.html#regressão-log-logística-e-estimativa-de-ec50",
+    "title": "Seu Título Aqui",
+    "section": "Regressão Log-Logística e Estimativa de EC50",
+    "text": "Regressão Log-Logística e Estimativa de EC50"
+  },
+  {
+    "objectID": "Aulas/aula_6.html#conclusões",
+    "href": "Aulas/aula_6.html#conclusões",
+    "title": "Seu Título Aqui",
+    "section": "Conclusões",
+    "text": "Conclusões\n\nTransformações corrigem problemas de normalidade e homocedasticidade.\nRegressão linear e mista ajudam a explicar variações em estande de plantas.\nModelos log-logísticos são essenciais para determinar sensibilidade (EC50)."
+  },
+  {
+    "objectID": "Aulas/aula_4.html",
+    "href": "Aulas/aula_4.html",
+    "title": "Seu Título Aqui",
+    "section": "",
+    "text": "Uso de lm() com transformação (ex: sqrt(count))\nComparações com emmeans() e cld()\nAvaliação de resíduos com simulateResiduals() do pacote DHARMa\n\n\n\n\n\nAjuste com family = poisson\nVisualização de resíduos simulados\nMédias estimadas com emmeans(..., type = \"response\")\nDiagnóstico com check_model()\n\n\n\n\n\nUso de lm() com interação ~ fator1*fator2\nVisualização com interaction.plot()\nComparações por nível com emmeans() e cld()\nCálculo do coeficiente de variação com cv.model()\n\n\n\n\n\nUso da função AUDPC() do pacote epifitter\nAgrupamento com group_by() + summarise()\nAjuste de modelo com dois fatores: irrigation_type e moisture\nInterações significativas e interpretação\n\n\n\n# Pacotes necessários\nlibrary(DHARMa)\n\nThis is DHARMa 0.4.7. For overview type '?DHARMa'. For recent changes, type news(package = 'DHARMa')\n\nlibrary(emmeans)\n\nWelcome to emmeans.\nCaution: You lose important information if you filter this package's results.\nSee '? untidy'\n\nlibrary(multcomp)\n\nCarregando pacotes exigidos: mvtnorm\n\n\nCarregando pacotes exigidos: survival\n\n\nCarregando pacotes exigidos: TH.data\n\n\nCarregando pacotes exigidos: MASS\n\n\n\nAnexando pacote: 'TH.data'\n\n\nO seguinte objeto é mascarado por 'package:MASS':\n\n    geyser\n\nlibrary(car)\n\nCarregando pacotes exigidos: carData\n\nlibrary(performance)\nlibrary(gsheet)\nlibrary(ggplot2)\nlibrary(agricolae)\nlibrary(epifitter)\nlibrary(dplyr)\n\n\nAnexando pacote: 'dplyr'\n\n\nO seguinte objeto é mascarado por 'package:car':\n\n    recode\n\n\nO seguinte objeto é mascarado por 'package:MASS':\n\n    select\n\n\nOs seguintes objetos são mascarados por 'package:stats':\n\n    filter, lag\n\n\nOs seguintes objetos são mascarados por 'package:base':\n\n    intersect, setdiff, setequal, union"
+  },
+  {
+    "objectID": "Aulas/aula_4.html#o-que-aprendemos",
+    "href": "Aulas/aula_4.html#o-que-aprendemos",
+    "title": "Seu Título Aqui",
+    "section": "",
+    "text": "Uso de lm() com transformação (ex: sqrt(count))\nComparações com emmeans() e cld()\nAvaliação de resíduos com simulateResiduals() do pacote DHARMa\n\n\n\n\n\nAjuste com family = poisson\nVisualização de resíduos simulados\nMédias estimadas com emmeans(..., type = \"response\")\nDiagnóstico com check_model()\n\n\n\n\n\nUso de lm() com interação ~ fator1*fator2\nVisualização com interaction.plot()\nComparações por nível com emmeans() e cld()\nCálculo do coeficiente de variação com cv.model()\n\n\n\n\n\nUso da função AUDPC() do pacote epifitter\nAgrupamento com group_by() + summarise()\nAjuste de modelo com dois fatores: irrigation_type e moisture\nInterações significativas e interpretação\n\n\n\n# Pacotes necessários\nlibrary(DHARMa)\n\nThis is DHARMa 0.4.7. For overview type '?DHARMa'. For recent changes, type news(package = 'DHARMa')\n\nlibrary(emmeans)\n\nWelcome to emmeans.\nCaution: You lose important information if you filter this package's results.\nSee '? untidy'\n\nlibrary(multcomp)\n\nCarregando pacotes exigidos: mvtnorm\n\n\nCarregando pacotes exigidos: survival\n\n\nCarregando pacotes exigidos: TH.data\n\n\nCarregando pacotes exigidos: MASS\n\n\n\nAnexando pacote: 'TH.data'\n\n\nO seguinte objeto é mascarado por 'package:MASS':\n\n    geyser\n\nlibrary(car)\n\nCarregando pacotes exigidos: carData\n\nlibrary(performance)\nlibrary(gsheet)\nlibrary(ggplot2)\nlibrary(agricolae)\nlibrary(epifitter)\nlibrary(dplyr)\n\n\nAnexando pacote: 'dplyr'\n\n\nO seguinte objeto é mascarado por 'package:car':\n\n    recode\n\n\nO seguinte objeto é mascarado por 'package:MASS':\n\n    select\n\n\nOs seguintes objetos são mascarados por 'package:stats':\n\n    filter, lag\n\n\nOs seguintes objetos são mascarados por 'package:base':\n\n    intersect, setdiff, setequal, union"
+  },
+  {
+    "objectID": "Aulas/aula_4.html#modelo-linear-com-transformação-sqrt",
+    "href": "Aulas/aula_4.html#modelo-linear-com-transformação-sqrt",
+    "title": "Seu Título Aqui",
+    "section": "Modelo Linear com Transformação (sqrt)",
+    "text": "Modelo Linear com Transformação (sqrt)\n\nInsectsDataframe = InsectSprays\nInsectAnovaResult = lm(sqrt(count) ~ spray, data=InsectsDataframe)\nM = emmeans(InsectAnovaResult, ~ spray)\ncld(M)\n\n spray emmean    SE df lower.CL upper.CL .group\n C       1.24 0.181 66    0.883     1.61  1    \n E       1.81 0.181 66    1.447     2.17  12   \n D       2.16 0.181 66    1.802     2.53   2   \n A       3.76 0.181 66    3.399     4.12    3  \n B       3.88 0.181 66    3.514     4.24    3  \n F       4.02 0.181 66    3.656     4.38    3  \n\nResults are given on the sqrt (not the response) scale. \nConfidence level used: 0.95 \nNote: contrasts are still on the sqrt scale. Consider using\n      regrid() if you want contrasts of back-transformed estimates. \nP value adjustment: tukey method for comparing a family of 6 estimates \nsignificance level used: alpha = 0.05 \nNOTE: If two or more means share the same grouping symbol,\n      then we cannot show them to be different.\n      But we also did not show them to be the same. \n\nplot(simulateResiduals(InsectAnovaResult))"
+  },
+  {
+    "objectID": "Aulas/aula_4.html#glm-com-distribuição-poisson",
+    "href": "Aulas/aula_4.html#glm-com-distribuição-poisson",
+    "title": "Seu Título Aqui",
+    "section": "GLM com Distribuição Poisson",
+    "text": "GLM com Distribuição Poisson\n\nm4 = glm(count ~ spray, data = InsectsDataframe, family = poisson)\nplot(simulateResiduals(m4))\n\n\n\n\n\n\n\nmediasM4 = emmeans(m4, ~ spray, type = \"response\")\ncld(mediasM4)\n\n spray  rate    SE  df asymp.LCL asymp.UCL .group\n C      2.08 0.417 Inf      1.41      3.08  1    \n E      3.50 0.540 Inf      2.59      4.74  12   \n D      4.92 0.640 Inf      3.81      6.35   2   \n A     14.50 1.100 Inf     12.50     16.82    3  \n B     15.33 1.130 Inf     13.27     17.72    3  \n F     16.67 1.180 Inf     14.51     19.14    3  \n\nConfidence level used: 0.95 \nIntervals are back-transformed from the log scale \nP value adjustment: tukey method for comparing a family of 6 estimates \nTests are performed on the log scale \nsignificance level used: alpha = 0.05 \nNOTE: If two or more means share the same grouping symbol,\n      then we cannot show them to be different.\n      But we also did not show them to be the same. \n\ncheck_model(m4)"
+  },
+  {
+    "objectID": "Aulas/aula_4.html#anova-fatorial-com-interação-fungicidas",
+    "href": "Aulas/aula_4.html#anova-fatorial-com-interação-fungicidas",
+    "title": "Seu Título Aqui",
+    "section": "ANOVA Fatorial com Interação (Fungicidas)",
+    "text": "ANOVA Fatorial com Interação (Fungicidas)\n\nFungicideDataframe = gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=2023059672\")\n\n# Boxplot por dose e tratamento\nFungicideDataframe |&gt;\n  ggplot(aes(factor(dose), severity*100)) +\n  geom_boxplot(outlier.color = NA) +\n  geom_jitter(width = 0.1) +\n  facet_wrap(~treat)\n\n\n\n\n\n\n\n\n\nMFungicide = lm(severity ~ treat * dose, data = FungicideDataframe)\nhist(residuals(MFungicide))\n\n\n\n\n\n\n\nplot(simulateResiduals(MFungicide))\n\n\n\n\n\n\n\ninteraction.plot(FungicideDataframe$dose, FungicideDataframe$treat, FungicideDataframe$severity)\n\n\n\n\n\n\n\nanova(MFungicide)\n\nAnalysis of Variance Table\n\nResponse: severity\n           Df   Sum Sq  Mean Sq F value    Pr(&gt;F)    \ntreat       1 0.113232 0.113232  30.358 4.754e-05 ***\ndose        1 0.073683 0.073683  19.755 0.0004077 ***\ntreat:dose  1 0.072739 0.072739  19.502 0.0004326 ***\nResiduals  16 0.059678 0.003730                      \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nMediasFungicideByDose = emmeans(MFungicide, ~ treat | dose)\ncld(MediasFungicideByDose, Letters = letters)\n\ndose = 0.5:\n treat        emmean     SE df lower.CL upper.CL .group\n Tebuconazole 0.0210 0.0273 16 -0.03690   0.0789  a    \n Ionic liquid 0.2921 0.0273 16  0.23420   0.3500   b   \n\ndose = 2.0:\n treat        emmean     SE df lower.CL upper.CL .group\n Tebuconazole 0.0202 0.0273 16 -0.03768   0.0781  a    \n Ionic liquid 0.0501 0.0273 16 -0.00781   0.1080  a    \n\nConfidence level used: 0.95 \nsignificance level used: alpha = 0.05 \nNOTE: If two or more means share the same grouping symbol,\n      then we cannot show them to be different.\n      But we also did not show them to be the same. \n\nMediasFungicideByTreat = emmeans(MFungicide, ~ dose | treat)\ncld(MediasFungicideByTreat, Letters = letters)\n\ntreat = Ionic liquid:\n dose emmean     SE df lower.CL upper.CL .group\n  2.0 0.0501 0.0273 16 -0.00781   0.1080  a    \n  0.5 0.2921 0.0273 16  0.23420   0.3500   b   \n\ntreat = Tebuconazole:\n dose emmean     SE df lower.CL upper.CL .group\n  2.0 0.0202 0.0273 16 -0.03768   0.0781  a    \n  0.5 0.0210 0.0273 16 -0.03690   0.0789  a    \n\nConfidence level used: 0.95 \nsignificance level used: alpha = 0.05 \nNOTE: If two or more means share the same grouping symbol,\n      then we cannot show them to be different.\n      But we also did not show them to be the same. \n\ncv.model(MFungicide)\n\n[1] 63.7165"
+  },
+  {
+    "objectID": "Aulas/aula_4.html#audpc-e-interação-fatorial-oídio",
+    "href": "Aulas/aula_4.html#audpc-e-interação-fatorial-oídio",
+    "title": "Seu Título Aqui",
+    "section": "AUDPC e Interação Fatorial (Oídio)",
+    "text": "AUDPC e Interação Fatorial (Oídio)\n\nMildewDataframe = PowderyMildew |&gt; \n  filter(irrigation_type %in% c(\"MS\", \"MS above canopy\", \"Overhead\"))\n\nMildewDataframe |&gt;\n  ggplot(aes(time, sev*100)) +\n  geom_jitter(width = 0.1) +\n  facet_grid(moisture ~ irrigation_type)\n\n\n\n\n\n\n\n\n\nMildewDataframeAUDPC = MildewDataframe |&gt;\n  group_by(irrigation_type, moisture, block) |&gt;\n  summarise(AUDPC = AUDPC(time, sev), .groups = \"drop\")\n\nggplot(MildewDataframeAUDPC, aes(irrigation_type, AUDPC, color = moisture)) +\n  geom_jitter(width = 0.1)\n\n\n\n\n\n\n\n\n\nMMildew = lm(AUDPC ~ irrigation_type * moisture, data = MildewDataframeAUDPC)\nhist(residuals(MMildew))\n\n\n\n\n\n\n\nplot(simulateResiduals(MMildew))\n\n\n\n\n\n\n\ninteraction.plot(MildewDataframeAUDPC$irrigation_type, MildewDataframeAUDPC$moisture, MildewDataframeAUDPC$AUDPC)\n\n\n\n\n\n\n\nanova(MMildew)\n\nAnalysis of Variance Table\n\nResponse: AUDPC\n                         Df  Sum Sq Mean Sq F value    Pr(&gt;F)    \nirrigation_type           2 134.341  67.170 451.721 5.073e-12 ***\nmoisture                  1   6.680   6.680  44.924 2.188e-05 ***\nirrigation_type:moisture  2   5.104   2.552  17.162 0.0003022 ***\nResiduals                12   1.784   0.149                      \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nMediasMildewByMoisture = emmeans(MMildew, ~ irrigation_type | moisture)\ncld(MediasMildewByMoisture, Letters = letters)\n\nmoisture = High moisture:\n irrigation_type emmean    SE df lower.CL upper.CL .group\n Overhead          3.68 0.223 12     3.20     4.17  a    \n MS above canopy   3.99 0.223 12     3.51     4.48  a    \n MS                8.52 0.223 12     8.04     9.01   b   \n\nmoisture = Moderate moisture:\n irrigation_type emmean    SE df lower.CL upper.CL .group\n Overhead          3.81 0.223 12     3.33     4.30  a    \n MS above canopy   4.86 0.223 12     4.37     5.34   b   \n MS               11.18 0.223 12    10.70    11.67    c  \n\nConfidence level used: 0.95 \nP value adjustment: tukey method for comparing a family of 3 estimates \nsignificance level used: alpha = 0.05 \nNOTE: If two or more means share the same grouping symbol,\n      then we cannot show them to be different.\n      But we also did not show them to be the same. \n\nMediasMildewByIrrigationType = emmeans(MMildew, ~ moisture | irrigation_type)\ncld(MediasMildewByIrrigationType, Letters = letters)\n\nirrigation_type = MS:\n moisture          emmean    SE df lower.CL upper.CL .group\n High moisture       8.52 0.223 12     8.04     9.01  a    \n Moderate moisture  11.18 0.223 12    10.70    11.67   b   \n\nirrigation_type = MS above canopy:\n moisture          emmean    SE df lower.CL upper.CL .group\n High moisture       3.99 0.223 12     3.51     4.48  a    \n Moderate moisture   4.86 0.223 12     4.37     5.34   b   \n\nirrigation_type = Overhead:\n moisture          emmean    SE df lower.CL upper.CL .group\n High moisture       3.68 0.223 12     3.20     4.17  a    \n Moderate moisture   3.81 0.223 12     3.33     4.30  a    \n\nConfidence level used: 0.95 \nsignificance level used: alpha = 0.05 \nNOTE: If two or more means share the same grouping symbol,\n      then we cannot show them to be different.\n      But we also did not show them to be the same. \n\ncv.model(MMildew)\n\n[1] 6.418205"
+  },
+  {
+    "objectID": "Aulas/aula_2.html",
+    "href": "Aulas/aula_2.html",
+    "title": "Seu Título Aqui",
+    "section": "",
+    "text": "Uso do read_excel() do pacote readxl\nLeitura de planilhas específicas\nFunções de visualização como head(), str(), glimpse()\n\n\n\n\n\nImportar dados diretamente da nuvem com gsheet\n\n\n\n\n\nfilter(), select(), group_by() e count()\nCombinar dados com rbind()\n\n\n\n\n\nGráficos de colunas (geom_col)\nBoxplots (geom_boxplot)\nCombinação de gráficos com patchwork"
+  },
+  {
+    "objectID": "Aulas/aula_2.html#o-que-aprendemos",
+    "href": "Aulas/aula_2.html#o-que-aprendemos",
+    "title": "Seu Título Aqui",
+    "section": "",
+    "text": "Uso do read_excel() do pacote readxl\nLeitura de planilhas específicas\nFunções de visualização como head(), str(), glimpse()\n\n\n\n\n\nImportar dados diretamente da nuvem com gsheet\n\n\n\n\n\nfilter(), select(), group_by() e count()\nCombinar dados com rbind()\n\n\n\n\n\nGráficos de colunas (geom_col)\nBoxplots (geom_boxplot)\nCombinação de gráficos com patchwork"
+  },
+  {
+    "objectID": "Aulas/aula_2.html#leitura-do-arquivo-excel",
+    "href": "Aulas/aula_2.html#leitura-do-arquivo-excel",
+    "title": "Seu Título Aqui",
+    "section": "1. Leitura do Arquivo Excel",
+    "text": "1. Leitura do Arquivo Excel"
+  },
+  {
+    "objectID": "Aulas/aula_2.html#google-sheets",
+    "href": "Aulas/aula_2.html#google-sheets",
+    "title": "Seu Título Aqui",
+    "section": "Google Sheets",
+    "text": "Google Sheets\n\nlibrary(gsheet)\n\ndados_nuvem &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=465348652#gid=465348652\")\ndados_mg &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=983033137#gid=983033137\")\ndados_survey &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=1118819738#gid=1118819738\")"
+  },
+  {
+    "objectID": "Aulas/aula_2.html#manipulação-com-dplyr",
+    "href": "Aulas/aula_2.html#manipulação-com-dplyr",
+    "title": "Seu Título Aqui",
+    "section": "2. Manipulação com dplyr",
+    "text": "2. Manipulação com dplyr\n\nAbaixo estão alguns exemplos de como usar o pacote dplyr para explorar, filtrar e organizar os dados de uma pesquisa (dados_survey):\n\nlibrary(dplyr)\n\n\nAnexando pacote: 'dplyr'\n\n\nOs seguintes objetos são mascarados por 'package:stats':\n\n    filter, lag\n\n\nOs seguintes objetos são mascarados por 'package:base':\n\n    intersect, setdiff, setequal, union\n\n# Agrupamentos\ndados_survey |&gt; group_by(species) |&gt; count()\n\n# A tibble: 2 × 2\n# Groups:   species [2]\n  species     n\n  &lt;chr&gt;   &lt;int&gt;\n1 Fgra      552\n2 Fspp      114\n\ndados_survey |&gt; group_by(residue) |&gt; count()\n\n# A tibble: 3 × 2\n# Groups:   residue [3]\n  residue     n\n  &lt;chr&gt;   &lt;int&gt;\n1 corn      169\n2 soybean   281\n3 &lt;NA&gt;      216\n\ndados_survey |&gt; group_by(state, residue) |&gt; count()\n\n# A tibble: 3 × 3\n# Groups:   state, residue [3]\n  state residue     n\n  &lt;chr&gt; &lt;chr&gt;   &lt;int&gt;\n1 PR    &lt;NA&gt;      216\n2 RS    corn      169\n3 RS    soybean   281\n\n# Filtros e combinação\nRS &lt;- dados_survey |&gt; filter(state == \"RS\")\nPR &lt;- dados_survey |&gt; filter(state == \"PR\")\ncombinado &lt;- rbind(RS, PR)\n\n# Seleção e filtros\nsurvey_b &lt;- dados_survey |&gt; select(year, state, species)\nsurvey_2009 &lt;- survey_b |&gt; filter(year == 2009)\nsurvey_2010 &lt;- survey_b |&gt; filter(year == 2010)\nsurvey_2011 &lt;- survey_b |&gt; filter(year == 2011)"
+  },
+  {
+    "objectID": "Aulas/aula_2.html#com-poucas-linhas-de-código-usando-o-dplyr-é-possível",
+    "href": "Aulas/aula_2.html#com-poucas-linhas-de-código-usando-o-dplyr-é-possível",
+    "title": "Seu Título Aqui",
+    "section": "Com poucas linhas de código usando o dplyr, é possível:",
+    "text": "Com poucas linhas de código usando o dplyr, é possível:\n\nAgrupar e contar dados;\nFiltrar por estado ou ano;\nSelecionar variáveis relevantes;\nCombinar subconjuntos para comparar regiões.\n\nEssas operações ajudam a limpar, organizar e entender melhor os dados antes de aplicar modelos ou criar visualizações. Uma análise bem feita começa com dados bem preparados e o dplyr facilita esse processo."
+  },
+  {
+    "objectID": "Aulas/aula_2.html#visualização-com-ggplot2-1",
+    "href": "Aulas/aula_2.html#visualização-com-ggplot2-1",
+    "title": "Seu Título Aqui",
+    "section": "4. Visualização com ggplot2",
+    "text": "4. Visualização com ggplot2\n\nlibrary(ggplot2)\n\nsurvey_b |&gt; group_by(year, species) |&gt; count() |&gt; \n  ggplot(aes(year, n, fill = species)) +\n  geom_col() +\n  scale_fill_viridis_d() +\n  theme_classic()"
+  },
+  {
+    "objectID": "Aulas/aula_2.html#visualizações-com-estudos-de-caso",
+    "href": "Aulas/aula_2.html#visualizações-com-estudos-de-caso",
+    "title": "Seu Título Aqui",
+    "section": "Visualizações com Estudos de Caso",
+    "text": "Visualizações com Estudos de Caso\n\nExemplo 1: Efeito do Magnésio\n\nplot_magnesio &lt;- dados_mg |&gt;\n  ggplot(aes(trat, comp)) +\n  geom_boxplot(fill = \"white\", outlier.colour = NA) +\n  geom_jitter(width = 0.1) +\n  scale_y_continuous(limits = c(0, 20)) +\n  labs(\n    x = \"Tratamento\", y = \"Comprimento (mm)\",\n    title = \"Efeito do Magnésio\",\n    subtitle = \"Tamanho da lesão de mancha\",\n    caption = \"Fonte: T. A. Machado et al. (2021)\"\n  ) +\n  ggthemes::theme_clean()\nplot_magnesio\n\n\n\n\n\n\n\n\n\n\nExemplo 2: Crescimento Micelial\n\nmicelial &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=959387827#gid=959387827\")\n\nplot_micelial &lt;- micelial |&gt; \n  ggplot(aes(x = reorder(especie, tcm), y = tcm)) +\n  geom_boxplot(fill = \"white\", outlier.colour = NA) +\n  geom_jitter(width = 0.1) +\n  coord_flip() +\n  labs(\n    x = \"Espécie\", y = \"TCM (mm)\",\n    title = \"Taxa de Crescimento Micelial\",\n    caption = \"Fonte: T. A. Machado et al. (2021)\"\n  ) +\n  ggthemes::theme_clean()\nplot_micelial"
+  },
+  {
+    "objectID": "Aulas/aula_2.html#combinação-de-gráficos",
+    "href": "Aulas/aula_2.html#combinação-de-gráficos",
+    "title": "Seu Título Aqui",
+    "section": "Combinação de Gráficos:",
+    "text": "Combinação de Gráficos:\nE por fim, vimos que dá pra exibir dois gráficos lado a lado diretamente no R sem depender de programas como PowerPoint ou ficar copiando imagem por imagem. Isso facilita a comparação entre visualizações e deixa o processo muito mais prático, tudo dentro do próprio ambiente de análise. Bem útil, né?\n\nlibrary(patchwork)\n\n(plot_magnesio | plot_micelial) +\n  plot_annotation(tag_levels = \"A\")\n\n\n\n\n\n\n\nggsave(\"Combo1.png\", bg = \"white\", width = 8, height = 4)"
+  },
+  {
+    "objectID": "Aulas/aula_2.html#dicas-finais",
+    "href": "Aulas/aula_2.html#dicas-finais",
+    "title": "Seu Título Aqui",
+    "section": "Dicas Finais:",
+    "text": "Dicas Finais:\n\nConfirme nomes de planilhas com excel_sheets(\"arquivo.xlsx\")\nPrefira nomes simples e sem espaços para variáveis\nglimpse() dá uma boa visão geral do dataset\nCombine gráficos com patchwork"
+  },
+  {
+    "objectID": "analise/regressao.html",
+    "href": "analise/regressao.html",
+    "title": "Exemplo de Regressão Linear",
+    "section": "",
+    "text": "Este é um exemplo de análise de regressão linear, modelando a relação entre a % de inóculo na semente e o número de plantas infectadas."
+  },
+  {
+    "objectID": "analise/regressao.html#introdução",
+    "href": "analise/regressao.html#introdução",
+    "title": "Exemplo de Regressão Linear",
+    "section": "",
+    "text": "Este é um exemplo de análise de regressão linear, modelando a relação entre a % de inóculo na semente e o número de plantas infectadas."
+  },
+  {
+    "objectID": "analise/regressao.html#código",
+    "href": "analise/regressao.html#código",
+    "title": "Exemplo de Regressão Linear",
+    "section": "Código",
+    "text": "Código\n\n\nCode\nlibrary(gsheet)\nlibrary(tidyverse)\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.4     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\nCode\nurl_estande &lt;- \"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=401662555#gid=401662555\"\nestande &lt;- gsheet2tbl(url_estande)\n\n# Gráfico de dispersão com regressão\nestande |&gt;\n  ggplot(aes(x = trat, y = nplants)) +\n  geom_point(color = \"steelblue\", size = 3) +\n  geom_smooth(method = \"lm\", se = TRUE, color = \"black\") +\n  facet_wrap(~ exp) +\n  theme_minimal() +\n  labs(\n    x = \"% de inóculo na semente\",\n    y = \"Número de plantas\",\n    title = \"Regressão linear por experimento\"\n  )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\nCode\n# Filtrando o experimento 1\nexp1 &lt;- estande |&gt; filter(exp == 1)\n\n# Ajuste do modelo linear\nm_exp1 &lt;- lm(nplants ~ trat, data = exp1)\nsummary(m_exp1)\n\n\n\nCall:\nlm(formula = nplants ~ trat, data = exp1)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-25.500  -6.532   1.758   8.573  27.226 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  52.5000     4.2044  12.487 1.84e-11 ***\ntrat         -0.2419     0.1859  -1.301    0.207    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 15 on 22 degrees of freedom\nMultiple R-squared:  0.07148,   Adjusted R-squared:  0.02928 \nF-statistic: 1.694 on 1 and 22 DF,  p-value: 0.2066"
+  },
+  {
+    "objectID": "analise/anova.html",
+    "href": "analise/anova.html",
+    "title": "Análise de Variância (ANOVA)",
+    "section": "",
+    "text": "Aqui mostramos um exemplo de ANOVA em um ensaio de campo com tratamentos e blocos."
+  },
+  {
+    "objectID": "analise/anova.html#introdução",
+    "href": "analise/anova.html#introdução",
+    "title": "Análise de Variância (ANOVA)",
+    "section": "",
+    "text": "Aqui mostramos um exemplo de ANOVA em um ensaio de campo com tratamentos e blocos."
+  },
+  {
+    "objectID": "analise/anova.html#exemplo-ensaio-de-campo",
+    "href": "analise/anova.html#exemplo-ensaio-de-campo",
+    "title": "Análise de Variância (ANOVA)",
+    "section": "Exemplo: Ensaio de Campo",
+    "text": "Exemplo: Ensaio de Campo\n\n\nCode\nlibrary(gsheet)\nlibrary(ggplot2)\nlibrary(dplyr)\n\n\n\nAnexando pacote: 'dplyr'\n\n\nOs seguintes objetos são mascarados por 'package:stats':\n\n    filter, lag\n\n\nOs seguintes objetos são mascarados por 'package:base':\n\n    intersect, setdiff, setequal, union\n\n\nCode\nlibrary(DHARMa)\n\n\nThis is DHARMa 0.4.7. For overview type '?DHARMa'. For recent changes, type news(package = 'DHARMa')\n\n\nCode\nlibrary(emmeans)\n\n\nWelcome to emmeans.\nCaution: You lose important information if you filter this package's results.\nSee '? untidy'\n\n\nCode\nlibrary(multcomp)\n\n\nCarregando pacotes exigidos: mvtnorm\n\n\nCarregando pacotes exigidos: survival\n\n\nCarregando pacotes exigidos: TH.data\n\n\nCarregando pacotes exigidos: MASS\n\n\n\nAnexando pacote: 'MASS'\n\n\nO seguinte objeto é mascarado por 'package:dplyr':\n\n    select\n\n\n\nAnexando pacote: 'TH.data'\n\n\nO seguinte objeto é mascarado por 'package:MASS':\n\n    geyser\n\n\nCode\nurl_campo &lt;- \"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=866852711#gid=866852711\"\ncampo &lt;- gsheet2tbl(url_campo) |&gt;\n  mutate(TRAT = factor(TRAT),\n         BLOCO = factor(BLOCO),\n         FER = as.numeric(FER))\n\n# Modelo linear\nm_campo &lt;- lm(log(FER) ~ BLOCO + TRAT, data = campo)\n\n# ANOVA\nanova(m_campo)\n\n\nAnalysis of Variance Table\n\nResponse: log(FER)\n          Df  Sum Sq Mean Sq F value    Pr(&gt;F)    \nBLOCO      3  0.2064 0.06880  1.7961    0.1788    \nTRAT       7 11.5210 1.64585 42.9665 4.838e-11 ***\nResiduals 21  0.8044 0.03831                      \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\nCode\n# Diagnóstico de resíduos\nplot(simulateResiduals(m_campo))\n\n\n\n\n\n\n\n\n\nCode\n# Médias e comparações\nmeans_campo &lt;- emmeans(m_campo, ~ TRAT, type = \"response\")\ncld(means_campo)\n\n\n TRAT response    SE df lower.CL upper.CL .group\n 6        2.98 0.292 21     2.43     3.65  1    \n 4        3.08 0.301 21     2.51     3.78  1    \n 5        3.24 0.317 21     2.64     3.97  1    \n 7        3.37 0.330 21     2.75     4.13  1    \n 8        3.48 0.341 21     2.84     4.27  1    \n 3        3.81 0.373 21     3.11     4.67  12   \n 2        5.68 0.556 21     4.63     6.96   2   \n 1       20.02 1.960 21    16.33    24.54    3  \n\nResults are averaged over the levels of: BLOCO \nConfidence level used: 0.95 \nIntervals are back-transformed from the log scale \nP value adjustment: tukey method for comparing a family of 8 estimates \nTests are performed on the log scale \nsignificance level used: alpha = 0.05 \nNOTE: If two or more means share the same grouping symbol,\n      then we cannot show them to be different.\n      But we also did not show them to be the same."
+  },
+  {
+    "objectID": "analise/anova.html#conclusão",
+    "href": "analise/anova.html#conclusão",
+    "title": "Análise de Variância (ANOVA)",
+    "section": "Conclusão",
+    "text": "Conclusão\nANOVA permite comparar tratamentos levando em conta o fator de bloco.\nÉ essencial verificar resíduos antes de interpretar os resultados."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "analise/correlacao.html",
+    "href": "analise/correlacao.html",
+    "title": "Exemplo de Correlação",
+    "section": "",
+    "text": "Este é um exemplo de análise de correlação entre severidade de ferrugem (FER) e produtividade (PROD) em ensaio de campo."
+  },
+  {
+    "objectID": "analise/correlacao.html#introdução",
+    "href": "analise/correlacao.html#introdução",
+    "title": "Exemplo de Correlação",
+    "section": "",
+    "text": "Este é um exemplo de análise de correlação entre severidade de ferrugem (FER) e produtividade (PROD) em ensaio de campo."
+  },
+  {
+    "objectID": "analise/correlacao.html#código",
+    "href": "analise/correlacao.html#código",
+    "title": "Exemplo de Correlação",
+    "section": "Código",
+    "text": "Código\n\n\nCode\nlibrary(gsheet)\nlibrary(tidyverse)\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.4     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\nCode\nurl_campo &lt;- \"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=866852711#gid=866852711\"\ncampo &lt;- gsheet2tbl(url_campo)"
+  },
+  {
+    "objectID": "analise/correlacao.html#correlação",
+    "href": "analise/correlacao.html#correlação",
+    "title": "Exemplo de Correlação",
+    "section": "Correlação",
+    "text": "Correlação\n\n\nCode\ncor(campo$FER, campo$PROD)\n\n\n[1] -0.6258321\n\n\nCode\ncor.test(campo$FER, campo$PROD)\n\n\n\n    Pearson's product-moment correlation\n\ndata:  campo$FER and campo$PROD\nt = -4.3949, df = 30, p-value = 0.0001277\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n -0.7999565 -0.3544981\nsample estimates:\n       cor \n-0.6258321"
+  },
+  {
+    "objectID": "analise/correlacao.html#gráfico-de-dispersão-com-linha-de-tendência",
+    "href": "analise/correlacao.html#gráfico-de-dispersão-com-linha-de-tendência",
+    "title": "Exemplo de Correlação",
+    "section": "Gráfico de dispersão com linha de tendência",
+    "text": "Gráfico de dispersão com linha de tendência\n\n\nCode\nggplot(campo, aes(x = FER, y = PROD)) +\n  geom_point(color = \"tomato\", size = 3) +\n  geom_smooth(method = \"lm\", color = \"black\") +\n  theme_minimal() +\n  labs(\n    x = \"Severidade de Ferrugem (%)\",\n    y = \"Produtividade (kg/ha)\",\n    title = \"Correlação entre severidade e produtividade\"\n  )\n\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "Aulas/aula_1.html",
+    "href": "Aulas/aula_1.html",
+    "title": "Seu Título Aqui",
+    "section": "",
+    "text": "Como executar cálculos simples diretamente no console\nAtribuição de valores a objetos com &lt;- e =\n\n\n\n\n\nCarregar datasets internos do R (ex: Orange)\nVisualizar dados com funções básicas\n\n\n\n\n\nAplicar funções matemáticas (log, exp) em colunas\nCriar novas variáveis em um dataframe\n\n\n\n\n\nInstalar (install.packages) e carregar (library) pacotes\nIntrodução aos pacotes tidyverse e agricolae"
+  },
+  {
+    "objectID": "Aulas/aula_1.html#o-que-aprendemos",
+    "href": "Aulas/aula_1.html#o-que-aprendemos",
+    "title": "Seu Título Aqui",
+    "section": "",
+    "text": "Como executar cálculos simples diretamente no console\nAtribuição de valores a objetos com &lt;- e =\n\n\n\n\n\nCarregar datasets internos do R (ex: Orange)\nVisualizar dados com funções básicas\n\n\n\n\n\nAplicar funções matemáticas (log, exp) em colunas\nCriar novas variáveis em um dataframe\n\n\n\n\n\nInstalar (install.packages) e carregar (library) pacotes\nIntrodução aos pacotes tidyverse e agricolae"
+  },
+  {
+    "objectID": "Aulas/aula_1.html#código-pronto-para-usar",
+    "href": "Aulas/aula_1.html#código-pronto-para-usar",
+    "title": "Seu Título Aqui",
+    "section": "Código Pronto para Usar",
+    "text": "Código Pronto para Usar\n\nTrabalhando com Dados\n\n# Carregar dataset Orange\ndados &lt;- Orange\n# Visualizar dados\nOrange\n\n   Tree  age circumference\n1     1  118            30\n2     1  484            58\n3     1  664            87\n4     1 1004           115\n5     1 1231           120\n6     1 1372           142\n7     1 1582           145\n8     2  118            33\n9     2  484            69\n10    2  664           111\n11    2 1004           156\n12    2 1231           172\n13    2 1372           203\n14    2 1582           203\n15    3  118            30\n16    3  484            51\n17    3  664            75\n18    3 1004           108\n19    3 1231           115\n20    3 1372           139\n21    3 1582           140\n22    4  118            32\n23    4  484            62\n24    4  664           112\n25    4 1004           167\n26    4 1231           179\n27    4 1372           209\n28    4 1582           214\n29    5  118            30\n30    5  484            49\n31    5  664            81\n32    5 1004           125\n33    5 1231           142\n34    5 1372           174\n35    5 1582           177\n\n\n\n\nTransformações Matemáticas\n\n# Criar vetor com valores de circunferência\ncirc &lt;- dados$circumference  # Extrai coluna como vetor\n\n# Aplicar exponencial e logaritmo\ncirc2 &lt;- exp(circ)           # Exponencial\ncirc3 &lt;- log(circ2)          # Log do resultado anterior (volta ao original)\n\n# Adicionar nova coluna ao dataframe\ndados$logcirc &lt;- log(dados$circumference)\n\n# Visualizar dataframe modificado\nhead(dados)\n\n  Tree  age circumference  logcirc\n1    1  118            30 3.401197\n2    1  484            58 4.060443\n3    1  664            87 4.465908\n4    1 1004           115 4.744932\n5    1 1231           120 4.787492\n6    1 1372           142 4.955827\n\n\n\n\nInstalação de Pacotes\n\n# Instalar pacotes (executar apenas uma vez)\n\n# Algo que aprendi e me ajudou muito nas aulas foi instalar os pacotes usando os códigos, \n# na correria da aula faz toda a diferença!\n\n# install.packages(\"tidyverse\")\n# install.packages(\"agricolae\")\n\n# Carregar pacotes\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.4     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n#library(agricolae)\n\n\n\nExemplo com Gráfico Básico\n\n# Criar dados de exemplo\ndates &lt;- c(7,14,21,28,35,42)\nseverity &lt;- c(0.1,5,10,35,50,60)\ndata_curva &lt;- data.frame(dates, severity)\n\n# Gráfico de colunas e linha\nlibrary(ggplot2)\nlibrary(dplyr)\n\ndata_curva |&gt;\n  mutate(severity2 = c(1, 10, 35, 58, 70, 82)) |&gt; \n  ggplot(aes(dates, severity2)) +\n  geom_col(fill = \"#F4A582\") +          # barras salmão claro\n  geom_line(linewidth = 2, color = \"#92C5DE\") +  # linha verde-azulada\n  geom_point(size = 4, color = \"#7570B3\") +      # pontos roxo escuro\n  labs(\n    title = \"Progresso da doença ao longo dos dias\",\n    x = \"Dias após plantio\",\n    y = \"Severidade (%)\"\n  ) +\n  theme_minimal() +\n  theme(\n    plot.title = element_text(face = \"bold\", size = 14, hjust = 0.5),\n    axis.title = element_text(size = 12),\n    axis.text = element_text(size = 11)\n  )"
+  },
+  {
+    "objectID": "Aulas/aula_1.html#dicas-finais",
+    "href": "Aulas/aula_1.html#dicas-finais",
+    "title": "Seu Título Aqui",
+    "section": "Dicas Finais:",
+    "text": "Dicas Finais:\n\nAtalhos úteis:\n\nCtrl + Enter: Executa linha selecionada\nAlt + -: Insere &lt;- automaticamente\n\nBoas práticas:\n\nUse nomes descritivos para objetos (dados_plantas em vez de df1)\nComente seu código com # para explicar etapas importantes\n\nPara saber mais:\n\nDocumentação do R\nCheatsheet do tidyverse"
+  },
+  {
+    "objectID": "Aulas/aula_3.html",
+    "href": "Aulas/aula_3.html",
+    "title": "Seu Título Aqui",
+    "section": "",
+    "text": "Quando utilizar: comparar médias entre dois grupos distintos (ex: tratamento vs. controle)\nVerificação de premissas: normalidade (teste de Shapiro-Wilk) e homogeneidade de variâncias (teste F)\nUtilização da função t.test() com var.equal = FALSE para caso variâncias diferentes\nVisualização com ggboxplot() e adição de valor-p com stat_pvalue_manual()\n\n\n\n\n\nQuando utilizar: comparação antes e depois no mesmo indivíduo (ex: Unaided vs Aided1)\nUso da função t.test(..., paired = TRUE)\nExploração de normalidade e variância com shapiro.test() e var.test()\nAlternativas não-paramétricas: wilcox.test() (teste de Wilcoxon)\n\n\n\n\n\nQuando utilizar: comparação entre três ou mais grupos (ex: espécies de fungos)\nVerificação de premissas: normalidade dos resíduos, homogeneidade das variâncias (bartlett.test, levene_test)\nComparações múltiplas com emmeans, pairs() e cld()\nVisualização de grupos com ggplot2\n\n\n\n\n\nTransformações da variável resposta: log(), sqrt(), rank() (com cuidado!)\nAlternativa não-paramétrica à ANOVA: Kruskal-Wallis com kruskal.test()\nComparações múltiplas para Kruskal com pacote agricolae"
+  },
+  {
+    "objectID": "Aulas/aula_3.html#o-que-aprendemos",
+    "href": "Aulas/aula_3.html#o-que-aprendemos",
+    "title": "Seu Título Aqui",
+    "section": "",
+    "text": "Quando utilizar: comparar médias entre dois grupos distintos (ex: tratamento vs. controle)\nVerificação de premissas: normalidade (teste de Shapiro-Wilk) e homogeneidade de variâncias (teste F)\nUtilização da função t.test() com var.equal = FALSE para caso variâncias diferentes\nVisualização com ggboxplot() e adição de valor-p com stat_pvalue_manual()\n\n\n\n\n\nQuando utilizar: comparação antes e depois no mesmo indivíduo (ex: Unaided vs Aided1)\nUso da função t.test(..., paired = TRUE)\nExploração de normalidade e variância com shapiro.test() e var.test()\nAlternativas não-paramétricas: wilcox.test() (teste de Wilcoxon)\n\n\n\n\n\nQuando utilizar: comparação entre três ou mais grupos (ex: espécies de fungos)\nVerificação de premissas: normalidade dos resíduos, homogeneidade das variâncias (bartlett.test, levene_test)\nComparações múltiplas com emmeans, pairs() e cld()\nVisualização de grupos com ggplot2\n\n\n\n\n\nTransformações da variável resposta: log(), sqrt(), rank() (com cuidado!)\nAlternativa não-paramétrica à ANOVA: Kruskal-Wallis com kruskal.test()\nComparações múltiplas para Kruskal com pacote agricolae"
+  },
+  {
+    "objectID": "Aulas/aula_3.html#teste-t-para-amostras-independentes-1",
+    "href": "Aulas/aula_3.html#teste-t-para-amostras-independentes-1",
+    "title": "Seu Título Aqui",
+    "section": "Teste t para Amostras Independentes",
+    "text": "Teste t para Amostras Independentes\n\ndat_mg &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=983033137\")\n\nggplot(dat_mg, aes(trat, comp)) +\n  geom_jitter(width = 0.1)\n\n\n\n\n\n\n\ndat_mg2 &lt;- dat_mg |&gt;\n  pivot_wider(names_from = trat, values_from = comp)\n\nt_results &lt;- t.test(dat_mg2$control, dat_mg2$Mg2, var.equal = FALSE)\nreport(t_results)\n\nEffect sizes were labelled following Cohen's (1988) recommendations.\n\nThe Welch Two Sample t-test testing the difference between dat_mg2$control and\ndat_mg2$Mg2 (mean of x = 15.68, mean of y = 10.52) suggests that the effect is\npositive, statistically significant, and large (difference = 5.16, 95% CI\n[3.83, 6.49], t(17.35) = 8.15, p &lt; .001; Cohen's d = 3.65, 95% CI [2.14, 5.12])\n\np &lt;- ggboxplot(dat_mg, x = \"trat\", y = \"comp\", color = \"trat\", palette = \"jco\")\ntest_df &lt;- data.frame(group1 = \"control\", group2 = \"Mg2\", p.value = t_results$p.value, y.position = 18)\np + stat_pvalue_manual(test_df, label = \"p.value\") + ylim(0, 20)\n\n\n\n\n\n\n\nshapiro.test(dat_mg2$Mg2)\n\n\n    Shapiro-Wilk normality test\n\ndata:  dat_mg2$Mg2\nW = 0.97269, p-value = 0.9146\n\nshapiro.test(dat_mg2$control)\n\n\n    Shapiro-Wilk normality test\n\ndata:  dat_mg2$control\nW = 0.93886, p-value = 0.5404\n\nvar.test(dat_mg2$Mg2, dat_mg2$control)\n\n\n    F test to compare two variances\n\ndata:  dat_mg2$Mg2 and dat_mg2$control\nF = 1.4781, num df = 9, denom df = 9, p-value = 0.5698\nalternative hypothesis: true ratio of variances is not equal to 1\n95 percent confidence interval:\n 0.3671417 5.9508644\nsample estimates:\nratio of variances \n          1.478111"
+  },
+  {
+    "objectID": "Aulas/aula_3.html#teste-t-para-amostras-dependentes",
+    "href": "Aulas/aula_3.html#teste-t-para-amostras-dependentes",
+    "title": "Seu Título Aqui",
+    "section": "Teste t para Amostras Dependentes",
+    "text": "Teste t para Amostras Dependentes\n\nescala &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=1729131173\")\n\nescala_wider &lt;- escala |&gt; pivot_wider(id_cols = rater, names_from = assessment, values_from = acuracia)\n\nt.test(escala_wider$Unaided, escala_wider$Aided1, paired = TRUE)\n\n\n    Paired t-test\n\ndata:  escala_wider$Unaided and escala_wider$Aided1\nt = -4.4214, df = 9, p-value = 0.001668\nalternative hypothesis: true mean difference is not equal to 0\n95 percent confidence interval:\n -0.3552353 -0.1147647\nsample estimates:\nmean difference \n         -0.235 \n\nggplot(escala, aes(x = assessment, y = acuracia)) +\n  geom_boxplot() +\n  labs(title = \"Comparação da Acurácia\", x = \"Avaliação\", y = \"Acurácia\")\n\n\n\n\n\n\n\nunaided &lt;- escala |&gt; filter(assessment == \"Unaided\") |&gt; pull(acuracia)\naided &lt;- escala |&gt; filter(assessment == \"Aided1\") |&gt; pull(acuracia)\nvar.test(unaided, aided)\n\n\n    F test to compare two variances\n\ndata:  unaided and aided\nF = 20.978, num df = 9, denom df = 9, p-value = 0.000106\nalternative hypothesis: true ratio of variances is not equal to 1\n95 percent confidence interval:\n  5.210754 84.459185\nsample estimates:\nratio of variances \n          20.97847 \n\nshapiro.test(unaided)\n\n\n    Shapiro-Wilk normality test\n\ndata:  unaided\nW = 0.7748, p-value = 0.007155\n\nshapiro.test(aided)\n\n\n    Shapiro-Wilk normality test\n\ndata:  aided\nW = 0.92852, p-value = 0.4335\n\nwilcox.test(unaided, aided, paired = TRUE)\n\n\n    Wilcoxon signed rank test with continuity correction\n\ndata:  unaided and aided\nV = 0, p-value = 0.005889\nalternative hypothesis: true location shift is not equal to 0"
+  },
+  {
+    "objectID": "Aulas/aula_3.html#anova---crescimento-micelial",
+    "href": "Aulas/aula_3.html#anova---crescimento-micelial",
+    "title": "Seu Título Aqui",
+    "section": "ANOVA - Crescimento Micelial",
+    "text": "ANOVA - Crescimento Micelial\n\nmicelial &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=959387827\")\n\nggplot(micelial, aes(x = especie, y = tcm)) +\n  geom_boxplot() +\n  geom_jitter(width = 0.1)\n\n\n\n\n\n\n\nanova1 &lt;- aov(tcm ~ especie, data = micelial)\nshapiro.test(residuals(anova1))\n\n\n    Shapiro-Wilk normality test\n\ndata:  residuals(anova1)\nW = 0.9821, p-value = 0.8782\n\nbartlett.test(tcm ~ especie, data = micelial)\n\n\n    Bartlett test of homogeneity of variances\n\ndata:  tcm by especie\nBartlett's K-squared = 4.4367, df = 4, p-value = 0.3501\n\nlevene_test(tcm ~ especie, data = micelial)\n\n# A tibble: 1 × 4\n    df1   df2 statistic     p\n  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;\n1     4    25      1.76 0.169\n\nm &lt;- emmeans(anova1, ~ especie)\npairs(m)\n\n contrast    estimate    SE df t.ratio p.value\n Fasi - Faus    0.335 0.079 25   4.241  0.0023\n Fasi - Fcor    0.250 0.079 25   3.165  0.0302\n Fasi - Fgra    0.660 0.079 25   8.356  &lt;.0001\n Fasi - Fmer    0.145 0.079 25   1.836  0.3765\n Faus - Fcor   -0.085 0.079 25  -1.076  0.8169\n Faus - Fgra    0.325 0.079 25   4.115  0.0031\n Faus - Fmer   -0.190 0.079 25  -2.405  0.1469\n Fcor - Fgra    0.410 0.079 25   5.191  0.0002\n Fcor - Fmer   -0.105 0.079 25  -1.329  0.6761\n Fgra - Fmer   -0.515 0.079 25  -6.520  &lt;.0001\n\nP value adjustment: tukey method for comparing a family of 5 estimates \n\ncld(m)\n\n especie emmean     SE df lower.CL upper.CL .group\n Fgra     0.912 0.0559 25    0.797     1.03  1    \n Faus     1.237 0.0559 25    1.122     1.35   2   \n Fcor     1.322 0.0559 25    1.207     1.44   2   \n Fmer     1.427 0.0559 25    1.312     1.54   23  \n Fasi     1.572 0.0559 25    1.457     1.69    3  \n\nConfidence level used: 0.95 \nP value adjustment: tukey method for comparing a family of 5 estimates \nsignificance level used: alpha = 0.05 \nNOTE: If two or more means share the same grouping symbol,\n      then we cannot show them to be different.\n      But we also did not show them to be the same."
+  },
+  {
+    "objectID": "Aulas/aula_3.html#kruskal-wallis-e-alternativas",
+    "href": "Aulas/aula_3.html#kruskal-wallis-e-alternativas",
+    "title": "Seu Título Aqui",
+    "section": "Kruskal-Wallis e Alternativas",
+    "text": "Kruskal-Wallis e Alternativas\n\ninsetos &lt;- InsectSprays\n\nggplot(insetos, aes(x = spray, y = count)) +\n  geom_boxplot() +\n  geom_jitter(width = 0.1)\n\n\n\n\n\n\n\nkruskal.test(count ~ spray, data = insetos)\n\n\n    Kruskal-Wallis rank sum test\n\ndata:  count by spray\nKruskal-Wallis chi-squared = 54.691, df = 5, p-value = 1.511e-10\n\nkruskal.out &lt;- with(insetos, kruskal(count, spray, group = TRUE, console = TRUE))\n\n\nStudy: count ~ spray\nKruskal-Wallis test's\nTies or no Ties\n\nCritical Value: 54.69134\nDegrees of freedom: 5\nPvalue Chisq  : 1.510845e-10 \n\nspray,  means of the ranks\n\n     count  r\nA 52.16667 12\nB 54.83333 12\nC 11.45833 12\nD 25.58333 12\nE 19.33333 12\nF 55.62500 12\n\nPost Hoc Analysis\n\nt-Student: 1.996564\nAlpha    : 0.05\nMinimum Significant Difference: 8.462804 \n\nTreatments with the same letter are not significantly different.\n\n     count groups\nF 55.62500      a\nB 54.83333      a\nA 52.16667      a\nD 25.58333      b\nE 19.33333     bc\nC 11.45833      c\n\nprint(kruskal.out)\n\n$statistics\n     Chisq Df      p.chisq  t.value      MSD\n  54.69134  5 1.510845e-10 1.996564 8.462804\n\n$parameters\n            test p.ajusted name.t ntr alpha\n  Kruskal-Wallis      none  spray   6  0.05\n\n$means\n      count     rank      std  r Min Max   Q25  Q50   Q75\nA 14.500000 52.16667 4.719399 12   7  23 11.50 14.0 17.75\nB 15.333333 54.83333 4.271115 12   7  21 12.50 16.5 17.50\nC  2.083333 11.45833 1.975225 12   0   7  1.00  1.5  3.00\nD  4.916667 25.58333 2.503028 12   2  12  3.75  5.0  5.00\nE  3.500000 19.33333 1.732051 12   1   6  2.75  3.0  5.00\nF 16.666667 55.62500 6.213378 12   9  26 12.50 15.0 22.50\n\n$comparison\nNULL\n\n$groups\n     count groups\nF 55.62500      a\nB 54.83333      a\nA 52.16667      a\nD 25.58333      b\nE 19.33333     bc\nC 11.45833      c\n\nattr(,\"class\")\n[1] \"group\""
+  },
+  {
+    "objectID": "Aulas/aula_3.html#dicas-finais",
+    "href": "Aulas/aula_3.html#dicas-finais",
+    "title": "Seu Título Aqui",
+    "section": "Dicas Finais",
+    "text": "Dicas Finais\n\nUse paired = TRUE para medidas repetidas.\nUse var.equal = FALSE como padrão no t.test() se as variâncias forem diferentes.\nTestes não-paramétricos (Wilcoxon, Kruskal) são bons aliados quando as premissas não são atendidas.\nVisualize sempre os dados antes de aplicar testes!"
+  },
+  {
+    "objectID": "Aulas/aula_5.html",
+    "href": "Aulas/aula_5.html",
+    "title": "Seu Título Aqui",
+    "section": "",
+    "text": "Importar dados do Google Sheets\nConverter variáveis para fatores e numéricos corretamente\nAjustar modelo linear (ANOVA)\nDiagnóstico de resíduos com DHARMa\nEstimar e comparar médias com emmeans\nCorrelação entre variáveis (FER, PROD, DFC)\nVisualizações com ggplot2\n\n\nlibrary(gsheet)\nlibrary(dplyr)\n\n\nAnexando pacote: 'dplyr'\n\n\nOs seguintes objetos são mascarados por 'package:stats':\n\n    filter, lag\n\n\nOs seguintes objetos são mascarados por 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(ggplot2)\nlibrary(DHARMa)\n\nThis is DHARMa 0.4.7. For overview type '?DHARMa'. For recent changes, type news(package = 'DHARMa')\n\nlibrary(emmeans)\n\nWelcome to emmeans.\nCaution: You lose important information if you filter this package's results.\nSee '? untidy'\n\nlibrary(multcomp)\n\nCarregando pacotes exigidos: mvtnorm\n\n\nCarregando pacotes exigidos: survival\n\n\nCarregando pacotes exigidos: TH.data\n\n\nCarregando pacotes exigidos: MASS\n\n\n\nAnexando pacote: 'MASS'\n\n\nO seguinte objeto é mascarado por 'package:dplyr':\n\n    select\n\n\n\nAnexando pacote: 'TH.data'\n\n\nO seguinte objeto é mascarado por 'package:MASS':\n\n    geyser\n\nlibrary(agricolae)\n\n# Importando os dados\ncampo &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=866852711#gid=866852711\")\n\n# Convertendo variáveis\ncampo &lt;- campo |&gt; \n  mutate(TRAT = factor(TRAT),\n         BLOCO = factor(BLOCO),\n         FER = as.numeric(FER))\n\n# Visualização dos dados\nggplot(campo, aes(x = TRAT, y = PROD)) + \n  geom_jitter(width = 0.1) + \n  stat_summary(fun.data = \"mean_cl_boot\", colour = \"red\")"
+  },
+  {
+    "objectID": "Aulas/aula_5.html#parte-2-experimento-com-milho",
+    "href": "Aulas/aula_5.html#parte-2-experimento-com-milho",
+    "title": "Seu Título Aqui",
+    "section": "Parte 2: Experimento com Milho",
+    "text": "Parte 2: Experimento com Milho\n###Importação e Visualização\n\nlibrary(lme4)\n\nCarregando pacotes exigidos: Matrix\n\nlibrary(car)\n\nCarregando pacotes exigidos: carData\n\n\n\nAnexando pacote: 'car'\n\n\nO seguinte objeto é mascarado por 'package:dplyr':\n\n    recode\n\nlibrary(DHARMa)\nlibrary(multcomp)\nlibrary(emmeans)\n\nmilho &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=1345524759#gid=1345524759\")\n\nmilho |&gt; \n  ggplot(aes(hybrid, index, color = method)) +\n  geom_jitter(width = 0.1) +\n  coord_flip()\n\n\n\n\n\n\n\n\n\nModelo Linear Misto\n\n# Criar variável de interação\nmilho &lt;- milho |&gt; mutate(hybrid_block = interaction(hybrid, block))\n\n# Modelo com interação híbrido:bloco\nm_milho &lt;- lmer(index ~ hybrid * method + (1 | hybrid_block), data = milho)\nAnova(m_milho)\n\nAnalysis of Deviance Table (Type II Wald chisquare tests)\n\nResponse: index\n                Chisq Df Pr(&gt;Chisq)   \nhybrid        11.4239  5    0.04359 * \nmethod         4.6964  1    0.03023 * \nhybrid:method 15.8062  5    0.00742 **\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nplot(simulateResiduals(m_milho))\n\n\n\n\n\n\n\n\n\n\nModelo com yield\n\nm_milho2 &lt;- lmer(yield ~ hybrid * method + (1 | block:hybrid_block), data = milho)\nAnova(m_milho2)\n\nAnalysis of Deviance Table (Type II Wald chisquare tests)\n\nResponse: yield\n                Chisq Df Pr(&gt;Chisq)    \nhybrid        22.5966  5  0.0004031 ***\nmethod         0.1052  1  0.7456932    \nhybrid:method 25.9302  5  9.206e-05 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nplot(simulateResiduals(m_milho2))\n\n\n\n\n\n\n\n# Médias e comparação\nmedia_milho2 &lt;- emmeans(m_milho2, ~ method | hybrid)\ncld(media_milho2, Letters = letters)\n\nhybrid = 30F53 HX:\n method emmean  SE   df lower.CL upper.CL .group\n silk     9988 798 21.1     8328    11647  a    \n pin     11208 798 21.1     9548    12867   b   \n\nhybrid = 30F53 YH:\n method emmean  SE   df lower.CL upper.CL .group\n silk     9211 798 21.1     7552    10870  a    \n pin      9408 798 21.1     7748    11067  a    \n\nhybrid = 30K64:\n method emmean  SE   df lower.CL upper.CL .group\n silk    10361 798 21.1     8702    12020  a    \n pin     11675 798 21.1    10016    13334   b   \n\nhybrid = 30S31H:\n method emmean  SE   df lower.CL upper.CL .group\n pin      8118 798 21.1     6459     9777  a    \n silk     9185 798 21.1     7526    10844   b   \n\nhybrid = 30S31YH:\n method emmean  SE   df lower.CL upper.CL .group\n pin      7836 798 21.1     6177     9495  a    \n silk     8277 798 21.1     6618     9936  a    \n\nhybrid = BG7049H:\n method emmean  SE   df lower.CL upper.CL .group\n pin     11970 798 21.1    10311    13629  a    \n silk    12833 798 21.1    11174    14492  a    \n\nDegrees-of-freedom method: kenward-roger \nConfidence level used: 0.95 \nsignificance level used: alpha = 0.05 \nNOTE: If two or more means share the same grouping symbol,\n      then we cannot show them to be different.\n      But we also did not show them to be the same. \n\n\n\n\nCorrelação entre índice e produtividade\n\nmilho |&gt; \n  ggplot(aes(index, yield)) +\n  geom_point() +\n  geom_smooth(method = \"lm\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\ncor1 &lt;- cor(milho$index, milho$yield)\ncor1^2 * 100\n\n[1] 6.323713\n\ncor.test(milho$index, milho$yield)\n\n\n    Pearson's product-moment correlation\n\ndata:  milho$index and milho$yield\nt = -1.7622, df = 46, p-value = 0.08468\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n -0.49988704  0.03517829\nsample estimates:\n       cor \n-0.2514699"
+  },
+  {
+    "objectID": "FIp606.html",
+    "href": "FIp606.html",
+    "title": "FIp606",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "FIp606.html#quarto",
+    "href": "FIp606.html#quarto",
+    "title": "FIp606",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "Fip606_Aulas/FIp606.html",
+    "href": "Fip606_Aulas/FIp606.html",
+    "title": "FIp606",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "Fip606_Aulas/FIp606.html#quarto",
+    "href": "Fip606_Aulas/FIp606.html#quarto",
+    "title": "FIp606",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "Fip606_Aulas/sobre.html",
+    "href": "Fip606_Aulas/sobre.html",
+    "title": "Sobre mim:",
+    "section": "",
+    "text": "Olá! Sou Taís Aparecida Machado dos Santos\n🎓 Engenheira Agrônoma formada pela Universidade Federal de Viçosa (UFV) – 2024\n🔬 Mestranda em Fitopatologia pela UFV, sob orientação do Prof. Dr. Rafael Ferreira Alfenas\n🌿 Integrante do Laboratório de Patologia Florestal (Patomol)\n\n\nMinha trajetória acadêmica é guiada pela paixão por doenças de plantas, especialmente as que afetam espécies florestais. Desde 2023, atuo em projetos de pesquisa com ênfase em diagnóstico, epidemiologia e manejo de doenças causadas por fungos, com destaque para o gênero Ceratocystis.\nGostou do meu trabalho? Vamos conversar!\n\n📬 Contato\n\n\n\n 📧 tais.machado@ufv.br   👔 LinkedIn   💻 GitHub"
+  },
+  {
+    "objectID": "visualizacao/ggplot.html",
+    "href": "visualizacao/ggplot.html",
+    "title": "Tipos de Gráficos com ggplot2",
+    "section": "",
+    "text": "Aqui estão exemplos práticos de tipos de gráficos mais utilizados durante as aulas, com códigos prontos para uso e personalização."
+  },
+  {
+    "objectID": "visualizacao/ggplot.html#introdução",
+    "href": "visualizacao/ggplot.html#introdução",
+    "title": "Tipos de Gráficos com ggplot2",
+    "section": "",
+    "text": "Aqui estão exemplos práticos de tipos de gráficos mais utilizados durante as aulas, com códigos prontos para uso e personalização."
+  },
+  {
+    "objectID": "visualizacao/ggplot.html#boxplot-com-jitter-aula-2",
+    "href": "visualizacao/ggplot.html#boxplot-com-jitter-aula-2",
+    "title": "Tipos de Gráficos com ggplot2",
+    "section": "Boxplot com jitter (Aula 2)",
+    "text": "Boxplot com jitter (Aula 2)\n\n\nCode\nlibrary(ggplot2)\nlibrary(gsheet)\n\n# Exemplo: Efeito do magnésio\nmg &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=983033137#gid=983033137\")\n\nggplot(mg, aes(trat, comp)) +\n  geom_boxplot(fill = \"white\", outlier.colour = NA) +\n  geom_jitter(width = 0.1) +\n  labs(title = \"Boxplot com jitter: Efeito do magnésio\", \n       x = \"Tratamento\", \n       y = \"Comprimento (mm)\") +\n  theme_minimal()"
+  },
+  {
+    "objectID": "visualizacao/ggplot.html#gráfico-de-barras-com-erro-padrão-aula-3",
+    "href": "visualizacao/ggplot.html#gráfico-de-barras-com-erro-padrão-aula-3",
+    "title": "Tipos de Gráficos com ggplot2",
+    "section": "Gráfico de barras com erro padrão (Aula 3)",
+    "text": "Gráfico de barras com erro padrão (Aula 3)\n\n\nCode\n# Exemplo fictício com barras + erro padrão\ndf_bar &lt;- data.frame(\n  Trat = c(\"A\", \"B\", \"C\"),\n  Media = c(50, 60, 45),\n  EP = c(5, 4, 6)\n)\n\nggplot(df_bar, aes(x = Trat, y = Media)) +\n  geom_col(fill = \"skyblue\") +\n  geom_errorbar(aes(ymin = Media - EP, ymax = Media + EP), width = 0.2) +\n  labs(title = \"Gráfico de barras com erro padrão\", \n       x = \"Tratamento\", \n       y = \"Média ± EP\") +\n  theme_classic()"
+  },
+  {
+    "objectID": "visualizacao/ggplot.html#gráfico-de-linha-com-erro-padrão-aula-6",
+    "href": "visualizacao/ggplot.html#gráfico-de-linha-com-erro-padrão-aula-6",
+    "title": "Tipos de Gráficos com ggplot2",
+    "section": "Gráfico de linha com erro padrão (Aula 6)",
+    "text": "Gráfico de linha com erro padrão (Aula 6)\n\n\nCode\n# Exemplo: Estande de plantas (Aula 6)\nestande &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=401662555#gid=401662555\")\n\nggplot(estande, aes(x = trat, y = nplants, group = exp, color = factor(exp))) +\n  stat_summary(fun = mean, geom = \"line\") +\n  stat_summary(fun.data = mean_cl_boot, geom = \"errorbar\", width = 0.2) +\n  labs(title = \"Gráfico de linha com erro padrão\", \n       x = \"% de inóculo\", \n       y = \"Número de plantas\") +\n  theme_minimal()"
+  },
+  {
+    "objectID": "visualizacao/ggplot.html#gráfico-de-dispersão-com-regressão-aula-5",
+    "href": "visualizacao/ggplot.html#gráfico-de-dispersão-com-regressão-aula-5",
+    "title": "Tipos de Gráficos com ggplot2",
+    "section": "Gráfico de dispersão com regressão (Aula 5)",
+    "text": "Gráfico de dispersão com regressão (Aula 5)\n\n\nCode\n# Exemplo: FER x DFC (Aula 5)\ncampo &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=866852711#gid=866852711\")\n\nggplot(campo, aes(FER, DFC)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", color = \"red\") +\n  labs(title = \"Correlação: FER vs DFC\", \n       x = \"FER\", \n       y = \"DFC\") +\n  theme_minimal()\n\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "visualizacao/ggplot.html#facet-wrap-comparação-entre-grupos",
+    "href": "visualizacao/ggplot.html#facet-wrap-comparação-entre-grupos",
+    "title": "Tipos de Gráficos com ggplot2",
+    "section": "Facet Wrap (Comparação entre grupos)",
+    "text": "Facet Wrap (Comparação entre grupos)\n\n\nCode\n# Exemplo: Taxa de crescimento micelial\nmicelial &lt;- gsheet2tbl(\"https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=959387827#gid=959387827\")\n\nggplot(micelial, aes(x = reorder(especie, tcm), y = tcm)) +\n  geom_boxplot(fill = \"white\", outlier.colour = NA) +\n  facet_wrap(~ especie) +\n  coord_flip() +\n  labs(title = \"Facet Wrap: Taxa de crescimento micelial\", \n       x = \"Espécie\", \n       y = \"TCM (mm)\") +\n  theme_minimal()"
+  },
+  {
+    "objectID": "visualizacao/ggplot.html#conclusão",
+    "href": "visualizacao/ggplot.html#conclusão",
+    "title": "Tipos de Gráficos com ggplot2",
+    "section": "Conclusão",
+    "text": "Conclusão\nEsses são alguns exemplos práticos para usar no seu caderno de visualização de dados.\nVocê pode copiar e personalizar para cada projeto!"
+  }
+]

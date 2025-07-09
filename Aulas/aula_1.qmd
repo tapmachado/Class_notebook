@@ -1,5 +1,5 @@
 ---
-title: "Aula 1 - Primeiros Passos no R"
+title: ""
 ---
 
 ## O que aprendemos?
@@ -72,18 +72,27 @@ severity <- c(0.1,5,10,35,50,60)
 data_curva <- data.frame(dates, severity)
 
 # Gráfico de colunas e linha
+library(ggplot2)
+library(dplyr)
+
 data_curva |>
-  mutate(severity2 = c(1,10,35,58,70,82)) |> 
+  mutate(severity2 = c(1, 10, 35, 58, 70, 82)) |> 
   ggplot(aes(dates, severity2)) +
-  geom_col(fill = "black") +
-  geom_line(linewidth = 2, color = "purple") +
-  geom_point(size = 5, color = "black") +
+  geom_col(fill = "#F4A582") +          # barras salmão claro
+  geom_line(linewidth = 2, color = "#92C5DE") +  # linha verde-azulada
+  geom_point(size = 4, color = "#7570B3") +      # pontos roxo escuro
   labs(
     title = "Progresso da doença ao longo dos dias",
     x = "Dias após plantio",
     y = "Severidade (%)"
   ) +
-  theme_classic()
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 11)
+  )
+
 
 ```
 

@@ -1,5 +1,5 @@
 ---
-title: "Aula 06 - Transformações e Regressão Linear"
+title: ""
 format: html
 editor: visual
 ---
@@ -26,7 +26,7 @@ Aplicamos regressão log-logística com os pacotes `drc` e `ec50estimator`.
 
 Estimamos valores de EC50 para diferentes isolados fúngicos.
 
----
+------------------------------------------------------------------------
 
 ## Box-Cox: transformação de variáveis
 
@@ -55,7 +55,7 @@ m2 <- lm(count2 ~ spray, data = insects)
 plot(m2)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Regressão Linear
 
@@ -73,7 +73,7 @@ ggplot(estande, aes(x = trat, y = nplants)) +
   labs(x = "% de inóculo na semente", y = "Número de Plantas")
 ```
 
----
+------------------------------------------------------------------------
 
 ## Modelos Individuais por Experimento
 
@@ -91,7 +91,7 @@ m_exp3 <- lm(nplants ~ trat, data = exp3)
 summary(m_exp3)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Modelo Linear Misto
 
@@ -105,7 +105,7 @@ confint(m_misto)
 car::Anova(m_misto)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Visualização do Modelo Misto
 
@@ -117,15 +117,14 @@ ggplot(estande, aes(trat, nplants, color = factor(exp))) +
   geom_abline(intercept = 96, slope = -0.40, linetype = "dashed")
 ```
 
----
+------------------------------------------------------------------------
 
 ## Regressão Log-Logística e Estimativa de EC50
 
----
+------------------------------------------------------------------------
 
 ## Conclusões
 
-* Transformações corrigem problemas de normalidade e homocedasticidade.
-* Regressão linear e mista ajudam a explicar variações em estande de plantas.
-* Modelos log-logísticos são essenciais para determinar sensibilidade (EC50).
-
+-   Transformações corrigem problemas de normalidade e homocedasticidade.
+-   Regressão linear e mista ajudam a explicar variações em estande de plantas.
+-   Modelos log-logísticos são essenciais para determinar sensibilidade (EC50).

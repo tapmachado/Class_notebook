@@ -1,5 +1,5 @@
 ---
-title: "Aula 04 - Modelos Lineares e Interações"
+title: ""
 format: html
 editor: visual
 ---

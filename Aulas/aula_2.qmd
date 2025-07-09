@@ -1,5 +1,5 @@
 ---
-title: "Aula 2 - Leitura e Manipulação de Dados"
+title: ""
 format: html
 editor: visual
 ---

@@ -1,5 +1,5 @@
 ---
-title: "Aula 05 - Modelos Estatísticos em Dados de Campo e Ensaio"
+title: ""
 format: html
 editor: visual
 ---
@@ -62,7 +62,7 @@ pwpp(means_campo)
 pwpm(means_campo)
 ```
 
-###  Correlações
+### Correlações
 
 ```{r}
 cor(campo$FER, campo$PROD)

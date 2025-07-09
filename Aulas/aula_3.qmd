@@ -1,5 +1,5 @@
 ---
-title: "Aula 03 - Testes Estatísticos: t-Student e ANOVA"
+title: ""
 format: html
 editor: visual
 ---

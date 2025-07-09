@@ -30,6 +30,9 @@ Minha trajetória acadêmica é guiada pela paixão por doenças de plantas, esp
 :::
 
 ::: {style="display: flex; justify-content: center; gap: 30px; margin-top: 15px;"}
-<a href="mailto:tais.machado@ufv.br" style="text-decoration: none; color: #0F1C3F; font-weight: 500;"> 📧 tais.machado\@ufv.br </a> <a href="https://www.linkedin.com/in/seu-linkedin" target="_blank" style="text-decoration: none; color: #0F1C3F; font-weight: 500;"> 👔 LinkedIn </a> <a href="https://github.com/tapmachado" target="_blank" style="text-decoration: none; color: #0F1C3F; font-weight: 500;"> 💻 GitHub </a>
+<a href="mailto:tais.machado@ufv.br" style="text-decoration: none; color: #FFD700 !important; font-weight: 500;"> 📧 tais.machado@ufv.br </a> 
+<a href="https://www.linkedin.com/in/seu-linkedin" target="_blank" style="text-decoration: none; color: #FFD700 !important; font-weight: 500;"> 👔 LinkedIn </a> 
+<a href="https://github.com/tapmachado" target="_blank" style="text-decoration: none; color: #FFD700 !important; font-weight: 500;"> 💻 GitHub </a>
 :::
-:::::::
+
+

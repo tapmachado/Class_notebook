@@ -47,13 +47,12 @@ website:
           - text: "Elaborando Mapas"
             href: mapas/mapas_doencas.qmd
     right:
-      - text: "Autor do site"
+      - text: "Sobre mim"
         icon: person-circle
         href: sobre.qmd
       - icon: github
         href: https://github.com/tapmachado
-      - icon: search
-        href: "#search"
+     
 
 format:
   html:
