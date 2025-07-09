@@ -43,7 +43,7 @@ dados <- read_excel("dados_exemplo.xlsx")
 head(dados)
 ```
 
-```{}
+```         
 ```
 
 ------------------------------------------------------------------------
@@ -62,7 +62,7 @@ dados_survey <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1bq2N19DcZdta
 
 ## 2. Manipulação com dplyr
 
-### Abaixo estão alguns exemplos de como usar o pacote dplyr para explorar, filtrar e organizar os dados de uma pesquisa (dados_survey):
+Abaixo estão alguns exemplos de como usar o pacote `dplyr` para explorar, filtrar e organizar os dados de uma pesquisa:
 
 ```{r}
 library(dplyr)
