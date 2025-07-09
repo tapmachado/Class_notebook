@@ -5,9 +5,11 @@ format:
     css: styles.css
 ---
 
+:::: {style="text-align: center; max-width: 750px; margin: 0 auto;"}
 ::: {style="text-align: center; max-width: 750px; margin: 0 auto;"}
-**Caderno de aula FIP 606: Análise e Visualização de Dados**
+</h3>**Caderno de aula FIP 606: Análise e Visualização de Dados**</h3>
 :::
+::::
 
 :::::::: {style="text-align: center; max-width: 750px; margin: 0 auto;"}
 <p class="intro">
@@ -31,12 +33,12 @@ Oi, que bom te ver por aqui! Eu sou a **Taís Machado**, e este é o meu caderno
 </ul>
 
 ::: aviso
-💡 <strong>*Se algum código não funcionar...*</strong> *Tente reiniciar o R. Isso resolve 90% dos problemas.*
+💡 *Se algum código não funcionar... Tente reiniciar o R. Isso resolve 90% dos problemas.*
 
 *Para os outros 10%? Café e paciência! ☕️*
 :::
 
-<h3>Sobre a disciplina:</h3>
+**Sobre a disciplina:**
 
 <p>A disciplina <strong>FIP 606</strong> faz parte do Programa de Pós-Graduação em Fitopatologia da <strong>Universidade Federal de Viçosa (UFV)</strong>.\
 Ministrada pelo <strong>Prof. Emerson Del Ponte</strong> — veja o <a href="https://github.com/emdelponte" target="_blank" style="color: #FFD700;">GitHub do professor</a>.</p>
