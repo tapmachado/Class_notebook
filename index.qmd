@@ -10,7 +10,7 @@ format:
 
 **Caderno de aula FIP 606: Análise e Visualização de Dados**
 
-Oi, que bom te ver por aqui! Eu sou a Taís, e este é o meu caderno de anotações da disciplina <strong>FIP 606 — Análise e Visualização de Dados em Fitopatologia</strong>.
+Oi, que bom te ver por aqui! Eu sou a Taís Machado, e este é o meu caderno de anotações da disciplina <strong>FIP 606 — Análise e Visualização de Dados em Fitopatologia</strong>.
 
 </p>
 
