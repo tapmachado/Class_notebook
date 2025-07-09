@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Caderno FIP 606"
+  title: "<i class='bi bi-graph-up'></i> FIP 606"
   navbar:
     background: "#000000"
     left:
