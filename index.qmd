@@ -7,13 +7,9 @@ format:
 
 :::: {style="text-align: center; max-width: 750px; margin: 0 auto;"}
 ::: {style="text-align: center; max-width: 750px; margin: 0 auto;"}
-</h3>
-
 **CADERNO DE AULA**
 
 **FIP 606 - ANÁLISE E VISUALIZAÇÃO DE DADOS EM FITOPATOLOGIA**
-
-</h3>
 :::
 ::::
 
@@ -39,9 +35,9 @@ Oi, que bom te ver por aqui! Eu sou a **Taís Machado**, e este é o meu caderno
 </ul>
 
 ::: aviso
-💡 ***Se algum código não funcionar... Tente reiniciar o R. Isso resolve 90% dos problemas.***
+💡 *Se algum código não funcionar... Tente reiniciar o R. Isso resolve 90% dos problemas.*
 
-***Para os outros 10%? Café e paciência! ☕️***
+*Para os outros 10%? Café e paciência! ☕️*
 :::
 
 **Sobre a disciplina:**
