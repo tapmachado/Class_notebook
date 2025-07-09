@@ -9,7 +9,9 @@ format:
 ::: {style="text-align: center; max-width: 750px; margin: 0 auto;"}
 </h3>
 
-**Caderno de aula FIP 606: Análise e Visualização de Dados**
+**CADERNO DE AULA**
+
+**FIP 606 - ANÁLISE E VISUALIZAÇÃO DE DADOS EM FITOPATOLOGIA**
 
 </h3>
 :::
@@ -18,7 +20,7 @@ format:
 :::::::: {style="text-align: center; max-width: 750px; margin: 0 auto;"}
 <p class="intro">
 
-Oi, que bom te ver por aqui! Eu sou a **Taís Machado**, e este é o meu caderno de anotações da disciplina <strong>FIP 606 — Análise e Visualização de Dados em Fitopatologia</strong>.
+Oi, que bom te ver por aqui! Eu sou a **Taís Machado**, e este é o meu caderno de anotações da disciplina FIP 606 — Análise e Visualização de Dados em Fitopatologia.
 
 </p>
 
@@ -37,9 +39,9 @@ Oi, que bom te ver por aqui! Eu sou a **Taís Machado**, e este é o meu caderno
 </ul>
 
 ::: aviso
-💡 *Se algum código não funcionar... Tente reiniciar o R. Isso resolve 90% dos problemas.*
+💡 ***Se algum código não funcionar... Tente reiniciar o R. Isso resolve 90% dos problemas.***
 
-*Para os outros 10%? Café e paciência! ☕️*
+***Para os outros 10%? Café e paciência! ☕️***
 :::
 
 **Sobre a disciplina:**
